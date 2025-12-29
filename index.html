@@ -1,13 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Free Resume Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body { font-family: Arial; background:#f4f4f4; }
-.container { max-width:900px; margin:auto; background:white; padding:20px; }
-input, textarea { width:100%; margin:5px 0; padding:8px; }
-.resume { border:1px solid #ccc; padding:15px; margin-top:20px; }
-.ad { background:#eee; padding:10px; text-align:center; margin:15px 0; }
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:0;
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  background:#fff;
+  padding:20px;
+}
+h1{
+  text-align:center;
+}
+input, textarea{
+  width:100%;
+  padding:8px;
+  margin:5px 0 15px 0;
+}
+button{
+  background:#2563eb;
+  color:white;
+  padding:10px 15px;
+  border:none;
+  cursor:pointer;
+}
+button:hover{
+  background:#1e40af;
+}
+.form, .resume{
+  width:48%;
+}
+.flex{
+  display:flex;
+  gap:20px;
+}
+.resume{
+  border:1px solid #ccc;
+  padding:15px;
+}
+.resume h2{
+  margin-bottom:5px;
+}
+.resume-section{
+  margin-bottom:10px;
+}
+.ad{
+  background:#eee;
+  padding:10px;
+  text-align:center;
+  margin:15px 0;
+  font-size:14px;
+}
+@media(max-width:768px){
+  .flex{flex-direction:column;}
+  .form, .resume{width:100%;}
+}
 </style>
 </head>
 
@@ -16,35 +72,92 @@ input, textarea { width:100%; margin:5px 0; padding:8px; }
 <div class="container">
 <h1>Free Resume Builder</h1>
 
-<!-- 🔸 Ad Space -->
-<div class="ad">Your Ad Here</div>
+<div class="ad">Advertisement Space</div>
 
+<div class="flex">
+
+<!-- FORM -->
+<div class="form">
 <h3>Enter Your Details</h3>
-<input id="name" placeholder="Your Name">
+
+<input id="name" placeholder="Full Name">
 <input id="email" placeholder="Email">
-<textarea id="skills" placeholder="Skills"></textarea>
+
+<textarea id="objective" placeholder="Career Objective"></textarea>
+
+<textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+
 <textarea id="education" placeholder="Education"></textarea>
 
-<button onclick="generate()">Generate Resume</button>
+<textarea id="experience" placeholder="Experience"></textarea>
 
-<div class="resume" id="resume"></div>
+<button onclick="generateResume()">Generate Resume</button>
+</div>
 
-<!-- 🔸 Ad Space -->
-<div class="ad">Your Ad Here</div>
+<!-- RESUME PREVIEW -->
+<div class="resume" id="resume">
+<h2>Your Name</h2>
+<p>Email: your@email.com</p>
+
+<div class="resume-section">
+<strong>Objective</strong>
+<p>---</p>
+</div>
+
+<div class="resume-section">
+<strong>Skills</strong>
+<ul></ul>
+</div>
+
+<div class="resume-section">
+<strong>Education</strong>
+<p>---</p>
+</div>
+
+<div class="resume-section">
+<strong>Experience</strong>
+<p>---</p>
+</div>
+
+</div>
+
+</div>
+
+<button style="margin-top:20px;" onclick="window.print()">Download / Print Resume</button>
+
+<p style="font-size:12px;margin-top:10px;">
+⚠️ Do not enter sensitive personal information.
+</p>
 
 </div>
 
 <script>
-function generate() {
-  document.getElementById("resume").innerHTML = `
-  <h2>${name.value}</h2>
-  <p><b>Email:</b> ${email.value}</p>
-  <h3>Skills</h3>
-  <p>${skills.value}</p>
-  <h3>Education</h3>
-  <p>${education.value}</p>
-  <button onclick="window.print()">Download / Print</button>
-  `;
+function generateResume(){
+  document.querySelector("#resume h2").innerText =
+    document.getElementById("name").value || "Your Name";
+
+  document.querySelector("#resume p").innerText =
+    "Email: " + (document.getElementById("email").value || "your@email.com");
+
+  document.querySelectorAll(".resume-section p")[0].innerText =
+    document.getElementById("objective").value;
+
+  let skills = document.getElementById("skills").value.split(",");
+  let ul = document.querySelector(".resume-section ul");
+  ul.innerHTML = "";
+  skills.forEach(skill=>{
+    if(skill.trim()!=""){
+      let li = document.createElement("li");
+      li.innerText = skill.trim();
+      ul.appendChild(li);
+    }
+  });
+
+  document.querySelectorAll(".resume-section p")[1].innerText =
+    document.getElementById("education").value;
+
+  document.querySelectorAll(".resume-section p")[2].innerText =
+    document.getElementById("experience").value;
 }
 </script>
 
