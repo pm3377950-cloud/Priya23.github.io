@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Free Resume Builder</title>
+<style>
+body { font-family: Arial; background:#f4f4f4; }
+.container { max-width:900px; margin:auto; background:white; padding:20px; }
+input, textarea { width:100%; margin:5px 0; padding:8px; }
+.resume { border:1px solid #ccc; padding:15px; margin-top:20px; }
+.ad { background:#eee; padding:10px; text-align:center; margin:15px 0; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Free Resume Builder</h1>
+
+<!-- 🔸 Ad Space -->
+<div class="ad">Your Ad Here</div>
+
+<h3>Enter Your Details</h3>
+<input id="name" placeholder="Your Name">
+<input id="email" placeholder="Email">
+<textarea id="skills" placeholder="Skills"></textarea>
+<textarea id="education" placeholder="Education"></textarea>
+
+<button onclick="generate()">Generate Resume</button>
+
+<div class="resume" id="resume"></div>
+
+<!-- 🔸 Ad Space -->
+<div class="ad">Your Ad Here</div>
+
+</div>
+
+<script>
+function generate() {
+  document.getElementById("resume").innerHTML = `
+  <h2>${name.value}</h2>
+  <p><b>Email:</b> ${email.value}</p>
+  <h3>Skills</h3>
+  <p>${skills.value}</p>
+  <h3>Education</h3>
+  <p>${education.value}</p>
+  <button onclick="window.print()">Download / Print</button>
+  `;
+}
+</script>
+
+</body>
+  </html>
