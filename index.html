@@ -1,144 +1,169 @@
 <!DOCTYPE html>
-<html lang="us">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Cvmaker.com</title>
-    <meta name="robots" content="noindex, nofollow" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" />
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pro Resume Editor</title>
 
-    <!--[if lt IE 9]>
-      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI, sans-serif;
+    background:#e5e7eb;
+}
+.top{
+    background:#111827;
+    color:white;
+    padding:12px 20px;
+    display:flex;
+    justify-content:space-between;
+}
+.main{
+    display:flex;
+    padding:20px;
+    gap:20px;
+}
+.panel{
+    width:22%;
+    background:#fff;
+    padding:15px;
+}
+.panel button{
+    width:100%;
+    padding:10px;
+    margin-bottom:8px;
+    border:none;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+.resume{
+    width:78%;
+    background:white;
+    padding:30px;
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+}
 
-    <!-- fonts -->
-    <link
-      href="/assets/fonts/300-light.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      href="/assets/fonts/400-regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      href="/assets/fonts/500-medium.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      href="/assets/fonts/600-bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <!-- ./fonts -->
+/* ===== TEMPLATE 1 ===== */
+.template1 .header{
+    text-align:center;
+}
+.template1 .name{
+    font-size:34px;
+    font-weight:bold;
+}
+.template1 .section h3{
+    border-bottom:2px solid #2563eb;
+}
 
-    <script>
-      window.dataLayer = window.dataLayer || [];
-    </script>
+/* ===== TEMPLATE 2 ===== */
+.template2{
+    display:flex;
+}
+.template2 .left{
+    width:30%;
+    background:#1f2937;
+    color:white;
+    padding:20px;
+}
+.template2 .right{
+    width:70%;
+    padding:20px;
+}
+.template2 h3{
+    color:#2563eb;
+}
 
-    <!-- Anti-flicker snippet (recommended)  -->
-    <style>
-      .async-hide {
-        opacity: 0 !important;
-      }
-    </style>
-    <script>
-      (function (a, s, y, n, c, h, i, d, e) {
-        s.className += " " + y;
-        h.end = i = function () {
-          s.className = s.className.replace(RegExp(" ?" + y), "");
-        };
-        (a[n] = a[n] || []).hide = h;
-        setTimeout(function () {
-          i();
-          h.end = null;
-        }, c);
-      })(window, document.documentElement, "async-hide", "dataLayer", 4000, {
-        "GTM-TQ8QJBR": true,
-      });
-    </script>
+.section{
+    margin-top:15px;
+}
+[contenteditable]{
+    outline:none;
+}
+.remove{
+    float:right;
+    font-size:13px;
+    color:red;
+    cursor:pointer;
+}
+</style>
+</head>
 
-    <!-- Global site tag (gtag.js) - Google AdWords: 820278338 -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=AW-1033288498"
-    ></script>
+<body>
 
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != "dataLayer" ? "&l=" + l : "";
-        j.async = true;
-        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-TQ8QJBR");
-    </script>
-    <!-- End Google Tag Manager -->
+<div class="top">
+<div>Advanced Resume Builder</div>
+<div>
+<button onclick="setTemplate(1)">Template 1</button>
+<button onclick="setTemplate(2)">Template 2</button>
+<button onclick="window.print()">Download PDF</button>
+</div>
+</div>
 
-    <!-- adyen sdk -->
-    <script src="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/2.5.0/adyen.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/2.5.0/adyen.css"
-    />
-    <!-- ./adyen sdk -->
+<div class="main">
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/dom4/2.0.0/dom4.js"></script>
+<!-- CONTROL PANEL -->
+<div class="panel">
+<button onclick="addSection('Education')">+ Education</button>
+<button onclick="addSection('Skills')">+ Skills</button>
+<button onclick="addSection('Experience')">+ Experience</button>
+<button onclick="addSection('Projects')">+ Projects</button>
+</div>
 
-    <!-- TrustBox script -->
-    <script
-      type="text/javascript"
-      src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-      async
-    ></script>
-    <!-- End TrustBox script -->
-  </head>
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-MLFKWZH"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+<!-- RESUME -->
+<div class="resume template1" id="resume">
 
-    <div id="app"></div>
+<div class="header">
+<div class="name" contenteditable="true">Your Name</div>
+<div contenteditable="true">Email | Phone | City</div>
+</div>
 
-    <script type="text/javascript">
-      var Tawk_API = Tawk_API || {},
-        Tawk_LoadStart = new Date();
-      (function () {
-        var s1 = document.createElement("script"),
-          s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = "https://embed.tawk.to/5e418510a89cda5a188529f1/default";
-        s1.charset = "UTF-8";
-        s1.setAttribute("crossorigin", "*");
-        s0.parentNode.insertBefore(s1, s0);
-      })();
-    </script>
-  <script type="text/javascript" src="/dist/us/vendor.0f6d5306776cfa6f31c5.bundle.js?ec38c1af0248cecca20d" defer></script><script type="text/javascript" src="/dist/us/app.71fb5468224e38ff23f5.bundle.js?ec38c1af0248cecca20d" defer></script></body>
-        </html>
+<div class="section">
+<h3>Profile</h3>
+<p contenteditable="true">Professional summary here</p>
+</div>
+
+</div>
+</div>
+
+<script>
+function addSection(title){
+    let div=document.createElement("div");
+    div.className="section";
+    div.innerHTML=`
+    <span class="remove" onclick="this.parentElement.remove()">Remove</span>
+    <h3 contenteditable="true">${title}</h3>
+    <p contenteditable="true">Add details here</p>
+    `;
+    document.getElementById("resume").appendChild(div);
+}
+
+function setTemplate(n){
+    let r=document.getElementById("resume");
+    r.className="resume template"+n;
+
+    if(n===2){
+        r.innerHTML=`
+        <div class="left">
+        <h2 contenteditable="true">Your Name</h2>
+        <p contenteditable="true">Email<br>Phone<br>City</p>
+        <h3>Skills</h3>
+        <p contenteditable="true">HTML, CSS, JS</p>
+        </div>
+
+        <div class="right">
+        <div class="section">
+        <h3>Profile</h3>
+        <p contenteditable="true">Professional summary</p>
+        </div>
+        <div class="section">
+        <h3>Experience</h3>
+        <p contenteditable="true">Experience details</p>
+        </div>
+        </div>
+        `;
+    }
+}
+</script>
+
+</body>
+  </html>
