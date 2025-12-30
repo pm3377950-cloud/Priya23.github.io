@@ -1,251 +1,283 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Advanced Resume Maker</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Times New Roman;background:#e5e7eb}
-.app{display:flex;flex-wrap:wrap}
+body{
+ margin:0;
+ font-family:system-ui;
+ background:#e5e7eb;
+}
 
-/* FORM */
+/* Layout */
+.main{
+ display:flex;
+ gap:15px;
+ padding:15px;
+}
 .form{
- width:100%;
- max-width:380px;
+ width:360px;
  background:#fff;
- padding:14px;
+ padding:15px;
+ border-radius:12px;
+ overflow:auto;
 }
-h3{margin:10px 0;border-bottom:1px solid #ccc}
+.preview{
+ flex:1;
+ background:#d1d5db;
+ padding:20px;
+ overflow:auto;
+}
+
+/* Inputs */
 input,select,textarea{
- width:100%;padding:8px;margin-bottom:6px;
- border:1px solid #999;font-family:inherit
+ width:100%;
+ padding:9px;
+ margin-bottom:8px;
+ border-radius:6px;
+ border:1px solid #cbd5e1;
 }
-button{padding:8px 12px;margin:6px 0}
+label{font-size:13px;font-weight:600}
 
-/* DESIGN CARDS */
-.design-box{display:flex;gap:10px;flex-wrap:wrap}
-.design-card{
- width:120px;border:1px solid #ccc;
- padding:6px;border-radius:8px;
- text-align:center;cursor:pointer;
-}
-.design-card.active{
- border:2px solid #2563eb;background:#eff6ff
-}
-.mini{height:90px;border:1px solid #999;border-radius:4px}
-.mini-head{height:18px}
-.mini-line{height:6px;margin:6px}
-.classic-mini .mini-head{background:#ccc}
-.professional-mini{background:linear-gradient(90deg,#111 10px,#fff 10px)}
-.blue-mini .mini-head{background:#2563eb}
-.green-mini .mini-head{background:#16a34a}
-.red-mini .mini-head{background:#dc2626}
+/* Validation */
+.valid{border:2px solid #16a34a;background:#f0fdf4}
+.invalid{border:2px solid #dc2626;background:#fef2f2}
 
-/* PREVIEW */
-.preview{flex:1;padding:20px}
+/* Resume Preview (BIG A4) */
 .resume{
- max-width:900px;margin:auto;
- background:#fff;padding:20px
+ width:794px;
+ min-height:1123px;
+ background:#fff;
+ margin:auto;
+ padding:30px;
+ border:6px solid var(--color,#0ea5e9);
+ box-shadow:0 15px 30px rgba(0,0,0,.3);
 }
-.design-classic{border:1px solid #000}
-.design-professional{border:2px solid #111}
-.design-blue{border-top:10px solid #2563eb}
-.design-green{border-top:10px solid #16a34a}
-.design-red{border-top:10px solid #dc2626}
-
-.section-title{
- margin-top:20px;padding:6px;
- font-weight:bold;text-transform:uppercase;
- border-bottom:2px solid #000
+.header{
+ display:flex;
+ gap:15px;
+ align-items:center;
 }
-.design-blue .section-title{color:#2563eb}
-.design-green .section-title{color:#16a34a}
-.design-red .section-title{color:#dc2626}
-
-/* TWO COLUMN */
-.two-col{display:grid;grid-template-columns:30% 70%;gap:20px}
-.left{background:#f3f4f6;padding:12px}
-.right{padding:12px}
-
 .photo{
- width:120px;height:140px;object-fit:cover;
- border:1px solid #000
+ width:100px;
+ height:120px;
+ object-fit:cover;
+ display:none;
+ border-radius:6px;
 }
-.hide{display:none}
+.name{font-size:26px;font-weight:800}
+.section{margin-top:15px}
+.section h3{
+ margin:0 0 6px;
+ color:var(--color,#0ea5e9);
+ border-bottom:2px solid var(--color,#0ea5e9);
+}
+.info span{
+ display:block;
+ font-size:14px;
+}
+.icon{font-weight:bold;margin-right:6px}
 
-/* EDUCATION TABLE */
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #000;padding:6px;font-size:14px}
+/* Template colors */
+.blue{--color:#0ea5e9}
+.green{--color:#16a34a}
+.purple{--color:#7c3aed}
 
-@page{size:A4;margin:15mm}
+/* Ad */
+.ad-box{
+ margin:15px auto;
+ height:90px;
+ background:#f8fafc;
+ border:2px dashed #94a3b8;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#64748b;
+ border-radius:8px;
+}
+
+/* Buttons */
+button{
+ width:100%;
+ padding:12px;
+ background:#0ea5e9;
+ color:#fff;
+ border:none;
+ border-radius:8px;
+ font-size:15px;
+}
+
+/* Print */
 @media print{
  body{background:#fff}
- .form{display:none}
- .resume{border:none}
+ .form,.ad-box,button{display:none!important}
+ .resume{
+  width:210mm;
+  min-height:297mm;
+  padding:20mm;
+  border:none;
+  box-shadow:none;
+ }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="main">
 
 <!-- FORM -->
 <div class="form">
+<h3>Resume Details</h3>
 
-<h3>Resume Design</h3>
-<div class="design-box">
- <div class="design-card active" onclick="selectDesign(this,'classic')">
-  <div class="mini classic-mini"><div class="mini-head"></div></div>Classic
- </div>
- <div class="design-card" onclick="selectDesign(this,'professional')">
-  <div class="mini professional-mini"></div>Professional
- </div>
- <div class="design-card" onclick="selectDesign(this,'blue')">
-  <div class="mini blue-mini"><div class="mini-head"></div></div>Blue
- </div>
- <div class="design-card" onclick="selectDesign(this,'green')">
-  <div class="mini green-mini"><div class="mini-head"></div></div>Green
- </div>
- <div class="design-card" onclick="selectDesign(this,'red')">
-  <div class="mini red-mini"><div class="mini-head"></div></div>Red
- </div>
-</div>
-
-<h3>Basic Details</h3>
-<input placeholder="Full Name *" required oninput="setText('name',this.value)">
-<input placeholder="Email *" required oninput="setText('email',this.value)">
-<input placeholder="Phone *" required oninput="setText('phone',this.value)">
-<input type="date" oninput="setText('dob',this.value)">
-<select onchange="setText('gender',this.value)">
- <option value="">Gender</option><option>Male</option><option>Female</option>
-</select>
-<input placeholder="Nationality" oninput="setText('nation',this.value)">
-<input type="file" accept="image/*" onchange="loadImg(event)">
-
-<h3>Career Objective</h3>
-<select onchange="setText('objective',this.value)">
- <option value="">Select</option>
- <option>Motivated individual seeking growth opportunity.</option>
- <option>Hardworking fresher aiming to contribute to success.</option>
- <option>Dedicated candidate looking for responsible role.</option>
-</select>
-<textarea placeholder="Write your own" oninput="setText('objective',this.value)"></textarea>
-
-<h3>Skills</h3>
-<select id="skillSelect">
- <option value="">Select Skill</option>
- <option>MS Word</option>
- <option>MS Excel</option>
- <option>Computer Basics</option>
- <option>Communication</option>
-</select>
-<button onclick="addSkill()">Add Skill</button>
-
-<h3>Education</h3>
-<div id="eduForm"></div>
-<button onclick="addEdu()">+ Add Qualification</button>
-
-<h3>Font</h3>
-<select onchange="setFont(this.value)">
- <option>Times New Roman</option>
- <option>Arial</option>
- <option>Calibri</option>
- <option>Georgia</option>
+<label>Template Color</label>
+<select onchange="setColor(this.value)">
+<option value="blue">Blue</option>
+<option value="green">Green</option>
+<option value="purple">Purple</option>
 </select>
 
-<button onclick="window.print()">Download PDF</button>
+<label>Name *</label>
+<input required oninput="setText('rname',this.value)">
 
+<label>Phone *</label>
+<input id="phone" maxlength="10" oninput="validatePhone(this)">
+
+<label>Email *</label>
+<input id="email" oninput="validateEmail(this)">
+
+<label>DOB *</label>
+<input type="date" id="dob" oninput="setDOB(this.value)">
+
+<label>Gender</label>
+<select onchange="setText('rgender',this.value)">
+<option></option><option>Male</option><option>Female</option>
+</select>
+
+<label>Nationality</label>
+<input oninput="setText('rnationality',this.value)">
+
+<label>Objective</label>
+<select onchange="setText('robjective',this.value)">
+<option value="">Select</option>
+<option>Seeking a challenging position to utilize my skills.</option>
+<option>Motivated fresher aiming to contribute to organizational growth.</option>
+</select>
+<textarea placeholder="Or write your own"
+ oninput="setText('robjective',this.value)"></textarea>
+
+<label>Education</label>
+<textarea placeholder="10th / 12th / Graduation (Year, Board, %)"
+ oninput="setText('reducation',this.value)"></textarea>
+
+<label>Skills</label>
+<textarea placeholder="MS Word, Excel, Communication..."
+ oninput="setText('rskills',this.value)"></textarea>
+
+<label>Photo (optional)</label>
+<input type="file" accept="image/*" onchange="loadPhoto(event)">
+
+<button onclick="download()">Download PDF</button>
 </div>
 
 <!-- PREVIEW -->
 <div class="preview">
-<div class="resume design-classic" id="resume">
+<div class="resume blue" id="resume">
 
-<div class="two-col">
-<div class="left">
- <img id="photo" class="photo hide"><br><br>
- 📞 <span id="phone"></span><br>
- 📧 <span id="email"></span><br>
- 📅 <span id="dob"></span><br>
- Gender: <span id="gender"></span><br>
- Nationality: <span id="nation"></span>
+<div class="header">
+<img id="photo" class="photo">
+<div>
+<div class="name" id="rname">Your Name</div>
+<div class="info">
+<span><span class="icon">📞</span><span id="rphone">Phone</span></span>
+<span><span class="icon">✉</span><span id="remail">Email</span></span>
+<span><span class="icon">🎂</span><span id="rdob">DOB</span> | Age: <span id="rage">-</span></span>
 </div>
-
-<div class="right">
- <h1 id="name">Your Name</h1>
-
- <div class="section-title">Objective</div>
- <div id="objective"></div>
-
- <div class="section-title">Skills</div>
- <ul id="skills"></ul>
-
- <div class="section-title">Education</div>
- <table>
-  <tr><th>Qualification</th><th>Board</th><th>Year</th><th>%</th></tr>
-  <tbody id="eduPreview"></tbody>
- </table>
 </div>
 </div>
 
+<div class="section">
+<h3>Personal</h3>
+<span>Gender: <span id="rgender"></span></span>
+<span>Nationality: <span id="rnationality"></span></span>
 </div>
+
+<div class="section">
+<h3>Objective</h3>
+<p id="robjective"></p>
+</div>
+
+<div class="section">
+<h3>Education</h3>
+<p id="reducation"></p>
+</div>
+
+<div class="section">
+<h3>Skills</h3>
+<p id="rskills"></p>
+</div>
+
+</div>
+
+<div class="ad-box">Advertisement Space</div>
 </div>
 
 </div>
 
 <script>
-function setText(id,v){document.getElementById(id).innerText=v||""}
-function setFont(f){resume.style.fontFamily=f}
-
-function selectDesign(card,d){
- document.querySelectorAll('.design-card').forEach(c=>c.classList.remove('active'));
- card.classList.add('active');
- resume.className="resume design-"+d;
+function setText(id,v){
+ document.getElementById(id).innerText=v||"";
 }
 
-/* Photo */
-function loadImg(e){
- let r=new FileReader();
- r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
- r.readAsDataURL(e.target.files[0]);
+function setColor(c){
+ document.getElementById("resume").className="resume "+c;
 }
 
-/* Skills */
-let skillsArr=[];
-function addSkill(){
- let v=skillSelect.value;
- if(v && !skillsArr.includes(v)){
-  skillsArr.push(v);
-  skills.innerHTML=skillsArr.map(s=>"<li>"+s+"</li>").join("");
+function validatePhone(i){
+ i.value=i.value.replace(/\D/g,'');
+ if(/^[6-9]\d{9}$/.test(i.value)){
+  i.className="valid";
+  setText('rphone',i.value);
+ }else{
+  i.className="invalid";
  }
 }
 
-/* Education */
-let edu=[];
-function addEdu(){
- let i=edu.length;edu.push({});
- let d=document.createElement("div");
- d.innerHTML=`
- <input placeholder="Qualification" oninput="setEdu(${i},'q',this.value)">
- <input placeholder="Board" oninput="setEdu(${i},'b',this.value)">
- <input placeholder="Year" oninput="setEdu(${i},'y',this.value)">
- <input placeholder="%" oninput="setEdu(${i},'p',this.value)">
- <hr>`;
- eduForm.appendChild(d);
+function validateEmail(i){
+ if(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(i.value)){
+  i.className="valid";
+  setText('remail',i.value);
+ }else{
+  i.className="invalid";
+ }
 }
-function setEdu(i,k,v){edu[i][k]=v;renderEdu()}
-function renderEdu(){
- eduPreview.innerHTML="";
- edu.forEach(e=>{
-  if(e.q){
-   eduPreview.innerHTML+=
-   `<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
-  }
- });
+
+function setDOB(v){
+ if(!v) return;
+ const d=new Date(v);
+ const age=new Date().getFullYear()-d.getFullYear();
+ document.getElementById("rdob").innerText=v;
+ document.getElementById("rage").innerText=age;
+}
+
+function loadPhoto(e){
+ const img=document.getElementById("photo");
+ const r=new FileReader();
+ r.onload=()=>{img.src=r.result;img.style.display="block";}
+ r.readAsDataURL(e.target.files[0]);
+}
+
+function download(){
+ if(!document.querySelector('.valid')){
+  alert("Please fill required fields correctly");
+  return;
+ }
+ window.print();
 }
 </script>
 
 </body>
- </html>
+</html>
