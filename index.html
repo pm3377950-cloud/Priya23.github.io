@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Professional Resume Maker</title>
@@ -9,163 +9,156 @@
 body{margin:0;font-family:system-ui;background:#f1f5f9}
 .top{background:#0f172a;color:#fff;padding:14px;text-align:center;font-size:18px}
 .container{padding:10px}
-.card{background:#fff;padding:14px;border-radius:12px;margin-bottom:10px}
-.card h3{margin-top:0;color:#2563eb}
+.card{background:#fff;padding:14px;border-radius:12px;margin-bottom:12px}
+.card h3{margin:0 0 8px;color:#0ea5e9}
 
-input,textarea,select{
+input,select,textarea{
  width:100%;padding:10px;margin-bottom:8px;
- border-radius:8px;border:1px solid #cbd5e1
+ border-radius:8px;border:1px solid #cbd5e1;
 }
 
-button{padding:10px;border:none;border-radius:8px;background:#2563eb;color:#fff}
+/* ===== PREVIEW ===== */
+.resume-wrapper{background:#e5e7eb;padding:12px;border-radius:14px}
+.resume{background:#fff;padding:18px;border-radius:10px;position:relative}
 
-.resume{
- background:#fff;padding:18px;border-radius:12px;margin-bottom:90px
+/* Templates */
+.template-govt{border:2px solid #000}
+.template-private{border:2px solid #2563eb}
+.template-modern{border:2px dashed #16a34a}
+
+/* Colors */
+.blue{--main:#2563eb}
+.green{--main:#16a34a}
+.gray{--main:#374151}
+
+.section h4{
+ border-bottom:2px solid var(--main);
+ color:var(--main);
+ margin-bottom:6px;
 }
-.name{font-size:24px;font-weight:bold;color:#1e293b}
-.section{margin-top:12px}
-.section h4{border-bottom:2px solid #2563eb;color:#2563eb}
+
+.name{font-size:24px;font-weight:700}
+.photo{float:right;width:90px;height:110px;object-fit:cover;border:1px solid #999}
+
+.professional{line-height:1.5}
+.attractive{line-height:1.7}
+.attractive .section{background:#f8fafc;padding:6px;border-radius:6px}
 
 .bottom{
- position:fixed;bottom:0;width:100%;display:flex
+ position:fixed;bottom:0;width:100%;
+ display:flex
 }
-.bottom button{flex:1;padding:14px;font-size:16px}
+.bottom button{
+ flex:1;padding:14px;border:none;
+ background:#0ea5e9;color:#fff;font-size:16px
+}
 
-ul{padding-left:18px}
-.govt{display:none}
-
-.template-blue{--main:#2563eb}
-.template-green{--main:#16a34a}
-.template-red{--main:#dc2626}
-
-.resume{border-top:6px solid var(--main)}
-.section h4{border-color:var(--main);color:var(--main)}
+.skill-box label{display:block}
+.hide{display:none}
 </style>
 </head>
 
 <body>
 
-<div class="top">Professional Resume Maker (Free)</div>
+<div class="top">Professional Resume Maker</div>
 
 <div class="container">
 
-<!-- TEMPLATE -->
+<!-- SETTINGS -->
 <div class="card">
-<h3>Template & Color</h3>
+<h3>Template & Style</h3>
 <select onchange="setTemplate(this.value)">
  <option value="govt">Government</option>
  <option value="private">Private</option>
+ <option value="modern">Modern</option>
+</select>
+
+<select onchange="setStyle(this.value)">
+ <option value="professional">Professional</option>
+ <option value="attractive">Attractive</option>
 </select>
 
 <select onchange="setColor(this.value)">
- <option value="template-blue">Blue</option>
- <option value="template-green">Green</option>
- <option value="template-red">Red</option>
+ <option value="blue">Blue</option>
+ <option value="green">Green</option>
+ <option value="gray">Gray</option>
 </select>
 </div>
 
 <!-- PERSONAL -->
 <div class="card">
 <h3>Personal Details</h3>
-<input placeholder="Full Name" oninput="setText('name',this.value)">
-<input type="date" oninput="setText('dob',formatDOB(this.value))">
-
-<select oninput="setText('gender',this.value)">
+<input placeholder="Full Name *" required oninput="set('name',this.value)">
+<input placeholder="Mobile *" required oninput="set('phone',this.value)">
+<input placeholder="Email *" required oninput="set('email',this.value)">
+<input type="date" oninput="set('dob',this.value)">
+<select onchange="set('gender',this.value)">
  <option value="">Gender</option>
- <option>Male</option><option>Female</option><option>Other</option>
+ <option>Male</option><option>Female</option>
 </select>
+<input placeholder="Nationality" oninput="set('nation',this.value)">
+</div>
 
-<select oninput="setText('nation',this.value)">
- <option value="">Nationality</option>
- <option>Indian</option><option>Other</option>
-</select>
-
-<select class="govt" oninput="setText('category',this.value)">
- <option value="">Category</option>
- <option>General</option><option>OBC</option>
- <option>SC</option><option>ST</option><option>EWS</option>
-</select>
-
-<select oninput="setText('marital',this.value)">
- <option value="">Marital Status</option>
- <option>Single</option><option>Married</option>
-</select>
-
-<input type="tel" id="phoneInput" placeholder="Mobile Number"
- required pattern="[0-9]{10}" oninput="setText('phone',this.value)">
-
-<input type="email" id="emailInput" placeholder="Email Address"
- required oninput="setText('email',this.value)">
+<!-- PHOTO -->
+<div class="card">
+<h3>Photo</h3>
+<input type="file" accept="image/*" onchange="loadImg(event)">
 </div>
 
 <!-- OBJECTIVE -->
 <div class="card">
-<h3>Career Objective</h3>
-<select onchange="setText('objective',this.value)">
+<h3>Objective</h3>
+<select onchange="set('objective',this.value)">
  <option value="">Select Objective</option>
- <option>To secure a challenging position where I can utilize my skills and grow professionally.</option>
- <option>A motivated individual seeking an opportunity to enhance skills and contribute to the organization.</option>
- <option>Looking for a responsible role to apply my knowledge and gain experience.</option>
+ <option>A motivated student seeking an opportunity to enhance skills and gain experience.</option>
+ <option>Hardworking fresher aiming to contribute to organizational growth.</option>
+ <option>Dedicated individual looking for a responsible position.</option>
 </select>
-<textarea placeholder="Or write your own objective"
- oninput="setText('objective',this.value)"></textarea>
+<textarea placeholder="Or write your own" oninput="set('objective',this.value)"></textarea>
 </div>
 
 <!-- EDUCATION -->
 <div class="card">
 <h3>Education</h3>
-<select id="qual">
- <option value="">Qualification</option>
- <option>10th</option><option>12th</option>
- <option>Graduation</option><option>Diploma</option>
-</select>
-<input type="number" id="year" placeholder="Passing Year">
-<input placeholder="School / College">
-<button onclick="addEdu()">Add</button>
+<textarea placeholder="10th / 12th / Graduation (Board & Year)" oninput="set('edu',this.value)"></textarea>
 </div>
 
 <!-- SKILLS -->
 <div class="card">
 <h3>Skills</h3>
-<label><input type="checkbox" value="Computer Basics" onchange="updateSkills()"> Computer Basics</label><br>
-<label><input type="checkbox" value="MS Office" onchange="updateSkills()"> MS Office</label><br>
-<label><input type="checkbox" value="Communication" onchange="updateSkills()"> Communication</label>
+<div class="skill-box">
+<label><input type="checkbox" onchange="skill(this)"> MS Word</label>
+<label><input type="checkbox" onchange="skill(this)"> Excel</label>
+<label><input type="checkbox" onchange="skill(this)"> Communication</label>
+<label><input type="checkbox" onchange="skill(this)"> Computer Basics</label>
 </div>
-
-<!-- LANG -->
-<div class="card">
-<h3>Languages Known</h3>
-<label><input type="checkbox" value="Hindi" onchange="updateLang()"> Hindi</label><br>
-<label><input type="checkbox" value="English" onchange="updateLang()"> English</label>
-</div>
-
-<!-- ADDRESS -->
-<div class="card">
-<h3>Address</h3>
-<textarea oninput="setText('address',this.value)"></textarea>
-<input placeholder="PIN Code" oninput="setText('pincode',this.value)">
 </div>
 
 <!-- PREVIEW -->
-<div class="resume template-blue" id="resume">
-<div class="name" id="name">Your Name</div>
-<p id="phone"></p>
-<p id="email"></p>
+<div class="resume-wrapper">
+<div class="resume template-govt professional blue" id="resume">
 
-<p><b>DOB:</b> <span id="dob"></span></p>
-<p><b>Gender:</b> <span id="gender"></span></p>
-<p><b>Nationality:</b> <span id="nation"></span></p>
-<p><b>Marital:</b> <span id="marital"></span></p>
-<p class="govt"><b>Category:</b> <span id="category"></span></p>
+<img class="photo" id="photo">
+
+<div class="name" id="name">Your Name</div>
+<p>📞 <span id="phone">Mobile</span></p>
+<p>✉️ <span id="email">Email</span></p>
+
+<div class="section">
+<h4>Personal</h4>
+DOB: <span id="dob">DD/MM/YYYY</span><br>
+Gender: <span id="gender">---</span><br>
+Nationality: <span id="nation">---</span>
+</div>
 
 <div class="section">
 <h4>Objective</h4>
-<p id="objective"></p>
+<p id="objective">Your career objective will appear here</p>
 </div>
 
 <div class="section">
 <h4>Education</h4>
-<ul id="eduList"></ul>
+<p id="edu">Education details</p>
 </div>
 
 <div class="section">
@@ -173,15 +166,6 @@ ul{padding-left:18px}
 <p id="skills"></p>
 </div>
 
-<div class="section">
-<h4>Languages</h4>
-<p id="languages"></p>
-</div>
-
-<div class="section">
-<h4>Address</h4>
-<p id="address"></p>
-<p><b>PIN:</b> <span id="pincode"></span></p>
 </div>
 </div>
 
@@ -192,49 +176,34 @@ ul{padding-left:18px}
 </div>
 
 <script>
-function setText(id,v){document.getElementById(id).innerText=v||""}
+function set(id,v){document.getElementById(id).innerText=v||""}
 
-function formatDOB(d){
- if(!d) return "";
- let x=new Date(d);
- return x.getDate().toString().padStart(2,"0")+"-"+
- (x.getMonth()+1).toString().padStart(2,"0")+"-"+x.getFullYear();
+function loadImg(e){
+ let r=new FileReader();
+ r.onload=()=>photo.src=r.result;
+ r.readAsDataURL(e.target.files[0]);
+}
+
+let skillArr=[];
+function skill(el){
+ if(el.checked)skillArr.push(el.parentNode.innerText);
+ else skillArr=skillArr.filter(s=>s!=el.parentNode.innerText);
+ skills.innerText=skillArr.join(", ");
 }
 
 function setTemplate(t){
- document.querySelectorAll('.govt').forEach(e=>{
-  e.style.display = t==='govt'?'block':'none';
- });
+ resume.classList.remove("template-govt","template-private","template-modern");
+ resume.classList.add("template-"+t);
 }
-
+function setStyle(s){
+ resume.classList.remove("professional","attractive");
+ resume.classList.add(s);
+}
 function setColor(c){
- let r=document.getElementById("resume");
- r.className="resume "+c;
-}
-
-function addEdu(){
- let q=document.getElementById("qual").value;
- let y=document.getElementById("year").value;
- if(!q||!y){alert("Qualification & Year required");return;}
- let li=document.createElement("li");
- li.innerText=q+" ("+y+")";
- eduList.appendChild(li);
-}
-
-function updateSkills(){
- let a=[];
- document.querySelectorAll('input[type=checkbox]:checked')
- .forEach(c=>a.push(c.value));
- skills.innerText=a.join(", ");
-}
-
-function updateLang(){
- let a=[];
- document.querySelectorAll('input[value=Hindi],input[value=English]')
- .forEach(c=>{if(c.checked)a.push(c.value)});
- languages.innerText=a.join(", ");
+ resume.classList.remove("blue","green","gray");
+ resume.classList.add(c);
 }
 </script>
 
 </body>
- </html>
+  </html>
