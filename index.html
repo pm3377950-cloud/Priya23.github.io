@@ -1,118 +1,156 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Professional Resume Maker</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:Arial;background:#e5e7eb}
+/* ===== GLOBAL ===== */
+body{
+ margin:0;
+ font-family:Georgia,serif;
+ background:#d1d5db;
+}
 .app{display:flex;flex-wrap:wrap}
 
-/* FORM */
+/* ===== FORM ===== */
 .form{
  width:100%;
  max-width:380px;
  background:#fff;
  padding:14px;
 }
-h3{margin:10px 0;border-bottom:1px solid #ccc}
-input,select,textarea{
- width:100%;padding:8px;margin-bottom:6px;
- border:1px solid #999;font-family:inherit
+h3{
+ margin:12px 0;
+ border-bottom:2px solid #000;
+ font-size:18px;
 }
-textarea{resize:none}
-button{padding:8px 12px;margin:6px 0;cursor:pointer}
+input,select,textarea{
+ width:100%;
+ padding:8px;
+ margin-bottom:6px;
+ border:1px solid #999;
+ font-family:inherit;
+}
+input:valid{border-color:green}
+.tick{color:green;font-size:14px;display:none}
+button{
+ padding:8px 12px;
+ margin:6px 0;
+ cursor:pointer;
+}
 
-/* VALIDATION */
-.valid{border-color:green}
-.invalid{border-color:red}
-
-/* DESIGN CARDS */
-.design-box{display:flex;gap:10px;flex-wrap:wrap}
+/* ===== TEMPLATE CARDS ===== */
+.design-box{display:flex;gap:8px;flex-wrap:wrap}
 .design-card{
- width:120px;border:1px solid #ccc;
- padding:6px;border-radius:8px;
- text-align:center;cursor:pointer;
+ width:110px;
+ border:1px solid #aaa;
+ padding:6px;
+ text-align:center;
+ border-radius:6px;
+ cursor:pointer;
+ font-size:13px;
 }
 .design-card.active{
- border:2px solid #2563eb;background:#eff6ff
+ border:2px solid #000;
+ background:#f3f4f6;
 }
-.mini{height:80px;border-radius:4px}
 
-/* PREVIEW */
+/* ===== PREVIEW ===== */
 .preview{
  flex:1;
- background:#d1d5db;
  padding:20px;
- display:flex;
- justify-content:center;
 }
 .resume{
- width:880px;
- min-height:1100px;
+ width:794px;
+ min-height:1123px;
  background:#fff;
- box-shadow:0 0 18px rgba(0,0,0,.25);
- padding:24px;
+ margin:auto;
+ padding:30px;
+ box-shadow:0 0 25px rgba(0,0,0,.3);
 }
 
-/* CLASSIC */
-.design-classic{border:1px solid #000}
+/* ===== TEMPLATES ===== */
+.design-classic{font-family:Georgia,serif}
+.design-modern{font-family:Calibri,sans-serif}
+.design-elegant{font-family:"Times New Roman",serif}
+.design-blue{font-family:Arial;border-top:10px solid #2563eb}
+.design-green{font-family:Arial;border-top:10px solid #16a34a}
 
-/* MODERN */
-.design-modern{padding:0}
-.modern-wrap{
+/* ===== HEADER ===== */
+.header{
+ text-align:center;
+ border-bottom:2px solid #000;
+ padding-bottom:10px;
+}
+.header h1{
+ margin:0;
+ font-size:32px;
+ letter-spacing:1px;
+}
+
+/* ===== LAYOUT ===== */
+.main{
  display:grid;
  grid-template-columns:32% 68%;
- min-height:1100px;
+ gap:20px;
+ margin-top:20px;
 }
-.modern-left{
- background:#0f0f0f;color:#fff;padding:20px
+.left{
+ background:#f3f4f6;
+ padding:14px;
 }
-.modern-right{padding:25px}
-.hex{
- width:140px;height:160px;
- clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
- overflow:hidden;margin:auto;border:4px solid #facc15
-}
-.hex img{width:100%;height:100%;object-fit:cover}
-.m-title{color:#facc15;font-weight:bold;margin:18px 0 8px}
-.vline{border-left:3px solid #facc15;padding-left:10px}
-.skill-bar{height:6px;background:#ccc;border-radius:6px}
-.skill-bar span{display:block;height:100%;background:#facc15;border-radius:6px}
+.right{padding:10px}
 
-/* SIDEBAR */
-.design-sidebar{padding:0}
-.sidebar-wrap{
- display:grid;
- grid-template-columns:35% 65%;
- min-height:1100px;
+/* ===== PHOTO ===== */
+.photo{
+ width:120px;
+ height:150px;
+ object-fit:cover;
+ border:1px solid #000;
+ display:block;
+ margin:auto;
 }
-.sidebar-left{
- background:#7a1646;color:#fff;padding:30px 20px
-}
-.sidebar-right{padding:30px}
-.circle-photo{
- width:150px;height:150px;border-radius:50%;
- overflow:hidden;margin:auto;border:4px solid #fff
-}
-.circle-photo img{width:100%;height:100%;object-fit:cover}
-.s-name{text-align:center;font-size:24px;font-weight:bold;margin:20px 0}
-.s-info div{display:flex;gap:10px;margin-bottom:12px}
-.s-title{color:#7a1646;font-weight:bold;margin:16px 0}
-
-/* EDUCATION TABLE */
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #000;padding:6px;font-size:14px}
-
-/* HIDE */
 .hide{display:none}
 
-/* PRINT */
+/* ===== SECTIONS ===== */
+.section-title{
+ margin-top:18px;
+ padding:6px 10px;
+ background:#e5e7eb;
+ border-left:5px solid #000;
+ font-weight:bold;
+ text-transform:uppercase;
+}
+p,li,td{font-size:15px;line-height:1.6}
+
+/* ===== TABLE ===== */
+table{width:100%;border-collapse:collapse}
+th,td{
+ border:1px solid #000;
+ padding:6px;
+ font-size:14px;
+}
+
+/* ===== AD ===== */
+.ad-box{
+ max-width:794px;
+ height:90px;
+ margin:15px auto;
+ background:#f8fafc;
+ border:2px dashed #94a3b8;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#64748b;
+}
+
+/* ===== PRINT ===== */
+@page{size:A4;margin:15mm}
 @media print{
  body{background:#fff}
- .form{display:none}
- .preview{padding:0}
+ .form,.ad-box{display:none}
  .resume{box-shadow:none}
 }
 </style>
@@ -122,35 +160,43 @@ th,td{border:1px solid #000;padding:6px;font-size:14px}
 
 <div class="app">
 
-<!-- FORM -->
+<!-- ================= FORM ================= -->
 <div class="form">
 
-<h3>Choose Design</h3>
+<h3>Template</h3>
 <div class="design-box">
- <div class="design-card active" onclick="selectDesign(this,'classic')">
-  <div class="mini" style="background:#fff"></div>Classic
- </div>
- <div class="design-card" onclick="selectDesign(this,'modern')">
-  <div class="mini" style="background:#111"></div>Modern
- </div>
- <div class="design-card" onclick="selectDesign(this,'sidebar')">
-  <div class="mini" style="background:#7a1646"></div>Sidebar
- </div>
+ <div class="design-card active" onclick="setDesign(this,'classic')">Classic</div>
+ <div class="design-card" onclick="setDesign(this,'modern')">Modern</div>
+ <div class="design-card" onclick="setDesign(this,'elegant')">Elegant</div>
+ <div class="design-card" onclick="setDesign(this,'blue')">Blue</div>
+ <div class="design-card" onclick="setDesign(this,'green')">Green</div>
 </div>
 
-<h3>Basic Details</h3>
-<input placeholder="Full Name *" oninput="setText('name',this.value)">
-<input placeholder="Email *" id="emailInput" oninput="validateEmail(this)">
-<input placeholder="Phone *" id="phoneInput" maxlength="10" oninput="validatePhone(this)">
-<input type="date" oninput="setText('dob',this.value)">
-<textarea placeholder="Address" oninput="setText('address',this.value)"></textarea>
-<input placeholder="Pin Code" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');setText('pincode',this.value)">
+<h3>Personal Details</h3>
+<input placeholder="Full Name *" required oninput="setText('name',this.value)">
+<input type="email" placeholder="Email *" required oninput="validateEmail(this)">
+<span id="emailTick" class="tick">✔ valid</span>
+
+<input type="tel" placeholder="Phone (10 digit) *" pattern="[0-9]{10}" required oninput="validatePhone(this)">
+<span id="phoneTick" class="tick">✔ valid</span>
+
+<input type="date" placeholder="Date of Birth" oninput="setText('dob',this.value)">
+<input placeholder="Address" oninput="setText('address',this.value)">
+<input placeholder="Pincode" oninput="setText('pin',this.value)">
+<input placeholder="Nationality" oninput="setText('nation',this.value)">
+<select onchange="setText('gender',this.value)">
+ <option value="">Gender</option>
+ <option>Male</option><option>Female</option>
+</select>
+
+<input type="file" accept="image/*" onchange="loadImg(event)">
 
 <h3>Objective</h3>
 <select onchange="setText('objective',this.value)">
  <option value="">Select</option>
- <option>Motivated fresher seeking opportunity to grow.</option>
- <option>Hardworking individual aiming to contribute.</option>
+ <option>Motivated individual seeking growth-oriented opportunity.</option>
+ <option>Dedicated fresher aiming to contribute skills and learn.</option>
+ <option>Responsible candidate looking for long-term career growth.</option>
 </select>
 <textarea placeholder="Write your own" oninput="setText('objective',this.value)"></textarea>
 
@@ -168,85 +214,52 @@ th,td{border:1px solid #000;padding:6px;font-size:14px}
 <div id="eduForm"></div>
 <button onclick="addEdu()">+ Add Qualification</button>
 
-<h3>Photo</h3>
-<input type="file" accept="image/*" onchange="loadImg(event)">
-
-<h3>Advertisement</h3>
-<div style="border:1px dashed #999;padding:10px;text-align:center">
- Ad Space
-</div>
-
-<button onclick="window.print()">Download / Print</button>
+<button onclick="window.print()">Download PDF</button>
 
 </div>
 
-<!-- PREVIEW -->
+<!-- ================= PREVIEW ================= -->
 <div class="preview">
 
-<!-- CLASSIC -->
 <div class="resume design-classic" id="resume">
-<h1 id="name">Your Name</h1>
-📞 <span id="phone"></span><br>
-📧 <span id="email"></span><br>
-📅 <span id="dob"></span><br>
-📍 <span id="address"></span> <span id="pincode"></span>
 
-<h3>Objective</h3>
-<div id="objective"></div>
+<div class="header">
+ <h1 id="name">Your Name</h1>
+</div>
 
-<h3>Skills</h3>
+<div class="main">
+
+<div class="left">
+ <img id="photo" class="photo hide"><br>
+ 📞 <span id="phone"></span><br>
+ 📧 <span id="email"></span><br>
+ 📅 <span id="dob"></span><br>
+ 🏠 <span id="address"></span><br>
+ 🔢 <span id="pin"></span><br>
+ Gender: <span id="gender"></span><br>
+ Nationality: <span id="nation"></span>
+</div>
+
+<div class="right">
+
+<div class="section-title">Career Objective</div>
+<p id="objective"></p>
+
+<div class="section-title">Skills</div>
 <ul id="skills"></ul>
 
-<h3>Education</h3>
+<div class="section-title">Education</div>
 <table>
 <tr><th>Qualification</th><th>Board</th><th>Year</th><th>%</th></tr>
 <tbody id="eduPreview"></tbody>
 </table>
-</div>
 
-<!-- MODERN -->
-<div class="resume design-modern hide" id="modernResume">
-<div class="modern-wrap">
-<div class="modern-left">
-<div class="hex"><img id="photo2"></div>
-<div class="m-title">Contact</div>
-<div class="vline">
-<div id="phone2"></div>
-<div id="email2"></div>
-<div id="address2"></div>
-<div id="pincode2"></div>
-</div>
-</div>
-<div class="modern-right">
-<h1 id="name2"></h1>
-<p id="objective2"></p>
-<h3>Skills</h3>
-<div id="skills2"></div>
-</div>
 </div>
 </div>
 
-<!-- SIDEBAR -->
-<div class="resume design-sidebar hide" id="sidebarResume">
-<div class="sidebar-wrap">
-<div class="sidebar-left">
-<div class="circle-photo"><img id="photo3"></div>
-<div class="s-name" id="name3"></div>
-<div class="s-info">
-<div>📞 <span id="phone3"></span></div>
-<div>📧 <span id="email3"></span></div>
-<div>📍 <span id="address3"></span></div>
-<div>📮 <span id="pincode3"></span></div>
 </div>
-</div>
-<div class="sidebar-right">
-<div class="s-title">Education</div>
-<ul id="edu3"></ul>
-<div class="s-title">Skills</div>
-<ul id="skills3"></ul>
-</div>
-</div>
-</div>
+
+<div class="ad-box">Advertisement Space</div>
 
 </div>
 </div>
@@ -254,16 +267,28 @@ th,td{border:1px solid #000;padding:6px;font-size:14px}
 <script>
 function setText(id,v){document.getElementById(id).innerText=v||""}
 
+/* Template */
+function setDesign(el,d){
+ document.querySelectorAll('.design-card').forEach(x=>x.classList.remove('active'));
+ el.classList.add('active');
+ resume.className="resume design-"+d;
+}
+
 /* Validation */
 function validatePhone(i){
- let ok=/^[0-9]{10}$/.test(i.value);
- i.className=ok?'valid':'invalid';
- setText('phone',ok?i.value:'');
+ phone.innerText=i.value;
+ phoneTick.style.display=(/^[0-9]{10}$/.test(i.value))?"inline":"none";
 }
 function validateEmail(i){
- let ok=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(i.value);
- i.className=ok?'valid':'invalid';
- setText('email',ok?i.value:'');
+ email.innerText=i.value;
+ emailTick.style.display=(/^\S+@\S+\.\S+$/.test(i.value))?"inline":"none";
+}
+
+/* Photo */
+function loadImg(e){
+ let r=new FileReader();
+ r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
+ r.readAsDataURL(e.target.files[0]);
 }
 
 /* Skills */
@@ -292,51 +317,14 @@ function addEdu(){
 function setEdu(i,k,v){edu[i][k]=v;renderEdu()}
 function renderEdu(){
  eduPreview.innerHTML="";
- edu3.innerHTML="";
  edu.forEach(e=>{
   if(e.q){
-   eduPreview.innerHTML+=`<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
-   edu3.innerHTML+=`<li>${e.y||""} - ${e.q}</li>`;
+   eduPreview.innerHTML+=
+   `<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
   }
  });
 }
-
-/* Photo */
-function loadImg(e){
- let r=new FileReader();
- r.onload=()=>{
-  photo2.src=photo3.src=r.result;
- }
- r.readAsDataURL(e.target.files[0]);
-}
-
-/* Design switch */
-function selectDesign(card,d){
- document.querySelectorAll('.design-card').forEach(c=>c.classList.remove('active'));
- card.classList.add('active');
- document.querySelectorAll('.resume').forEach(r=>r.classList.add('hide'));
- if(d==='modern') modernResume.classList.remove('hide');
- else if(d==='sidebar') sidebarResume.classList.remove('hide');
- else resume.classList.remove('hide');
-}
-
-/* Sync */
-setInterval(()=>{
- name2.innerText=name.innerText;
- name3.innerText=name.innerText;
- phone2.innerText=phone.innerText;
- phone3.innerText=phone.innerText;
- email2.innerText=email.innerText;
- email3.innerText=email.innerText;
- address2.innerText=address.innerText;
- address3.innerText=address.innerText;
- pincode2.innerText=pincode.innerText;
- pincode3.innerText=pincode.innerText;
- objective2.innerText=objective.innerText;
- skills2.innerHTML=skillsArr.map(s=>`<div>${s}<div class="skill-bar"><span style="width:80%"></span></div></div>`).join("");
- skills3.innerHTML=skillsArr.map(s=>"<li>"+s+"</li>").join("");
-},500);
 </script>
 
 </body>
- </html>
+  </html>
