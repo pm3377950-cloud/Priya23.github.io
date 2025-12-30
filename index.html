@@ -1,169 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pro Resume Editor</title>
+<title>Resume Maker App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{
-    margin:0;
-    font-family:Segoe UI, sans-serif;
-    background:#e5e7eb;
-}
-.top{
-    background:#111827;
-    color:white;
-    padding:12px 20px;
-    display:flex;
-    justify-content:space-between;
-}
-.main{
-    display:flex;
-    padding:20px;
-    gap:20px;
-}
-.panel{
-    width:22%;
-    background:#fff;
-    padding:15px;
-}
-.panel button{
-    width:100%;
-    padding:10px;
-    margin-bottom:8px;
-    border:none;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
-}
-.resume{
-    width:78%;
-    background:white;
-    padding:30px;
-    box-shadow:0 0 15px rgba(0,0,0,.15);
-}
+body{margin:0;font-family:system-ui;background:#f1f5f9}
+.top{background:#0f172a;color:#fff;padding:14px;text-align:center}
+.container{padding:10px}
+.card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px}
+.card h3{margin-top:0;color:#0ea5e9}
+input,textarea,select{width:100%;padding:10px;margin-bottom:8px;border-radius:8px;border:1px solid #cbd5e1}
 
-/* ===== TEMPLATE 1 ===== */
-.template1 .header{
-    text-align:center;
-}
-.template1 .name{
-    font-size:34px;
-    font-weight:bold;
-}
-.template1 .section h3{
-    border-bottom:2px solid #2563eb;
-}
+.resume{background:#fff;padding:18px;border-radius:12px;margin-bottom:80px}
+.name{font-size:24px;font-weight:bold}
+.section{margin-top:12px}
+.section h4{border-bottom:2px solid #0ea5e9}
 
-/* ===== TEMPLATE 2 ===== */
-.template2{
-    display:flex;
-}
-.template2 .left{
-    width:30%;
-    background:#1f2937;
-    color:white;
-    padding:20px;
-}
-.template2 .right{
-    width:70%;
-    padding:20px;
-}
-.template2 h3{
-    color:#2563eb;
-}
-
-.section{
-    margin-top:15px;
-}
-[contenteditable]{
-    outline:none;
-}
-.remove{
-    float:right;
-    font-size:13px;
-    color:red;
-    cursor:pointer;
-}
+.bottom{position:fixed;bottom:0;width:100%;display:flex}
+.bottom button{flex:1;padding:14px;border:none;background:#0ea5e9;color:#fff}
+img{max-width:100px;border-radius:6px}
 </style>
 </head>
 
 <body>
 
-<div class="top">
-<div>Advanced Resume Builder</div>
-<div>
-<button onclick="setTemplate(1)">Template 1</button>
-<button onclick="setTemplate(2)">Template 2</button>
-<button onclick="window.print()">Download PDF</button>
-</div>
+<div class="top">Resume Maker App (Pro)</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Template & Language</h3>
+<select onchange="setTemplate(this.value)">
+<option value="govt">Government</option>
+<option value="private">Private</option>
+<option value="fresher">Fresher</option>
+<option value="experience">Experienced</option>
+<option value="modern">Modern</option>
+</select>
+
+<select onchange="setLang(this.value)">
+<option value="en">English</option>
+<option value="hi">Hindi</option>
+</select>
 </div>
 
-<div class="main">
+<div class="card">
+<h3>Personal Details</h3>
+<input placeholder="Name" oninput="set('name',this.value)">
+<input placeholder="Father Name" class="govt" oninput="set('father',this.value)">
+<input placeholder="DOB" class="govt" oninput="set('dob',this.value)">
+<input placeholder="Mobile" oninput="set('phone',this.value)">
+<input placeholder="Email" oninput="set('email',this.value)">
+</div>
 
-<!-- CONTROL PANEL -->
-<div class="panel">
-<button onclick="addSection('Education')">+ Education</button>
-<button onclick="addSection('Skills')">+ Skills</button>
-<button onclick="addSection('Experience')">+ Experience</button>
-<button onclick="addSection('Projects')">+ Projects</button>
+<div class="card">
+<h3>Photo & Signature</h3>
+<input type="file" accept="image/*" onchange="loadImg(event,'photo')">
+<input type="file" accept="image/*" onchange="loadImg(event,'sign')">
+</div>
+
+<div class="card">
+<h3>Education</h3>
+<textarea oninput="set('edu',this.value)"></textarea>
+</div>
+
+<div class="card private">
+<h3>Skills</h3>
+<textarea oninput="set('skills',this.value)"></textarea>
+</div>
+
+<div class="card private">
+<h3>Experience / Projects</h3>
+<textarea oninput="set('exp',this.value)"></textarea>
 </div>
 
 <!-- RESUME -->
-<div class="resume template1" id="resume">
+<div class="resume" id="resume">
+<img id="photo">
+<div class="name" id="name">Your Name</div>
+<p id="phone"></p>
+<p id="email"></p>
 
-<div class="header">
-<div class="name" contenteditable="true">Your Name</div>
-<div contenteditable="true">Email | Phone | City</div>
+<div class="section govt">
+<b>Father:</b> <span id="father"></span><br>
+<b>DOB:</b> <span id="dob"></span>
 </div>
 
 <div class="section">
-<h3>Profile</h3>
-<p contenteditable="true">Professional summary here</p>
+<h4 id="eduTitle">Education</h4>
+<p id="edu"></p>
+</div>
+
+<div class="section private">
+<h4 id="skillTitle">Skills</h4>
+<p id="skills"></p>
+</div>
+
+<div class="section private">
+<h4 id="expTitle">Experience</h4>
+<p id="exp"></p>
+</div>
+
+<img id="sign">
 </div>
 
 </div>
+
+<div class="bottom">
+<button onclick="window.print()">Download PDF</button>
+<button onclick="alert('Paid Download Coming Soon')">Premium</button>
 </div>
 
 <script>
-function addSection(title){
-    let div=document.createElement("div");
-    div.className="section";
-    div.innerHTML=`
-    <span class="remove" onclick="this.parentElement.remove()">Remove</span>
-    <h3 contenteditable="true">${title}</h3>
-    <p contenteditable="true">Add details here</p>
-    `;
-    document.getElementById("resume").appendChild(div);
+function set(id,v){document.getElementById(id).innerText=v||""}
+
+function loadImg(e,id){
+ let r=new FileReader();
+ r.onload=()=>document.getElementById(id).src=r.result;
+ r.readAsDataURL(e.target.files[0]);
 }
 
-function setTemplate(n){
-    let r=document.getElementById("resume");
-    r.className="resume template"+n;
-
-    if(n===2){
-        r.innerHTML=`
-        <div class="left">
-        <h2 contenteditable="true">Your Name</h2>
-        <p contenteditable="true">Email<br>Phone<br>City</p>
-        <h3>Skills</h3>
-        <p contenteditable="true">HTML, CSS, JS</p>
-        </div>
-
-        <div class="right">
-        <div class="section">
-        <h3>Profile</h3>
-        <p contenteditable="true">Professional summary</p>
-        </div>
-        <div class="section">
-        <h3>Experience</h3>
-        <p contenteditable="true">Experience details</p>
-        </div>
-        </div>
-        `;
-    }
+function setTemplate(t){
+ document.querySelectorAll('.govt').forEach(e=>e.style.display=t==='govt'?'block':'none');
+ document.querySelectorAll('.private').forEach(e=>e.style.display=t==='private'||t==='modern'||t==='experience'?'block':'none');
 }
+
+function setLang(l){
+ if(l==='hi'){
+  eduTitle.innerText="शिक्षा";
+  skillTitle.innerText="कौशल";
+  expTitle.innerText="अनुभव";
+ }else{
+  eduTitle.innerText="Education";
+  skillTitle.innerText="Skills";
+  expTitle.innerText="Experience";
+ }
+}
+setTemplate('govt');
 </script>
 
 </body>
-  </html>
+    </html>
