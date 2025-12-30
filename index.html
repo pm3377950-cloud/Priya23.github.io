@@ -9,8 +9,8 @@
 /* ===== GLOBAL ===== */
 body{
  margin:0;
- font-family:Georgia,serif;
  background:#d1d5db;
+ font-family:Georgia,serif;
 }
 .app{display:flex;flex-wrap:wrap}
 
@@ -34,21 +34,25 @@ input,select,textarea{
  font-family:inherit;
 }
 input:valid{border-color:green}
-.tick{color:green;font-size:14px;display:none}
 button{
  padding:8px 12px;
  margin:6px 0;
  cursor:pointer;
 }
+.tick{
+ color:green;
+ font-size:13px;
+ display:none;
+}
 
-/* ===== TEMPLATE CARDS ===== */
+/* ===== TEMPLATE SELECT ===== */
 .design-box{display:flex;gap:8px;flex-wrap:wrap}
 .design-card{
  width:110px;
  border:1px solid #aaa;
  padding:6px;
- text-align:center;
  border-radius:6px;
+ text-align:center;
  cursor:pointer;
  font-size:13px;
 }
@@ -60,14 +64,15 @@ button{
 /* ===== PREVIEW ===== */
 .preview{
  flex:1;
- padding:20px;
+ padding:40px 0;
+ background:#d1d5db;
 }
 .resume{
  width:794px;
  min-height:1123px;
- background:#fff;
  margin:auto;
- padding:30px;
+ padding:40px 60px;
+ background:#fff;
  box-shadow:0 0 25px rgba(0,0,0,.3);
 }
 
@@ -81,38 +86,42 @@ button{
 /* ===== HEADER ===== */
 .header{
  text-align:center;
+ padding-bottom:16px;
  border-bottom:2px solid #000;
- padding-bottom:10px;
 }
-.header h1{
- margin:0;
- font-size:32px;
- letter-spacing:1px;
-}
-
-/* ===== LAYOUT ===== */
-.main{
- display:grid;
- grid-template-columns:32% 68%;
- gap:20px;
- margin-top:20px;
-}
-.left{
- background:#f3f4f6;
- padding:14px;
-}
-.right{padding:10px}
-
-/* ===== PHOTO ===== */
 .photo{
  width:120px;
  height:150px;
  object-fit:cover;
  border:1px solid #000;
  display:block;
- margin:auto;
+ margin:0 auto 12px auto;
 }
 .hide{display:none}
+.header h1{
+ margin:0;
+ font-size:32px;
+ letter-spacing:1px;
+}
+.contact-line{
+ margin-top:6px;
+ font-size:15px;
+ line-height:1.6;
+ letter-spacing:.4px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main{
+ margin-top:25px;
+ display:grid;
+ grid-template-columns:32% 68%;
+ gap:25px;
+}
+.left{
+ background:#f3f4f6;
+ padding:14px;
+}
+.right{padding:10px}
 
 /* ===== SECTIONS ===== */
 .section-title{
@@ -123,7 +132,10 @@ button{
  font-weight:bold;
  text-transform:uppercase;
 }
-p,li,td{font-size:15px;line-height:1.6}
+p,li,td{
+ font-size:15px;
+ line-height:1.6;
+}
 
 /* ===== TABLE ===== */
 table{width:100%;border-collapse:collapse}
@@ -174,19 +186,23 @@ th,td{
 
 <h3>Personal Details</h3>
 <input placeholder="Full Name *" required oninput="setText('name',this.value)">
-<input type="email" placeholder="Email *" required oninput="validateEmail(this)">
+
+<input type="email" placeholder="Email *" required
+ oninput="validateEmail(this)">
 <span id="emailTick" class="tick">✔ valid</span>
 
-<input type="tel" placeholder="Phone (10 digit) *" pattern="[0-9]{10}" required oninput="validatePhone(this)">
+<input type="tel" placeholder="Phone (10 digit) *" pattern="[0-9]{10}" required
+ oninput="validatePhone(this)">
 <span id="phoneTick" class="tick">✔ valid</span>
 
-<input type="date" placeholder="Date of Birth" oninput="setText('dob',this.value)">
+<input type="date" required oninput="setDOB(this.value)">
 <input placeholder="Address" oninput="setText('address',this.value)">
 <input placeholder="Pincode" oninput="setText('pin',this.value)">
 <input placeholder="Nationality" oninput="setText('nation',this.value)">
 <select onchange="setText('gender',this.value)">
  <option value="">Gender</option>
- <option>Male</option><option>Female</option>
+ <option>Male</option>
+ <option>Female</option>
 </select>
 
 <input type="file" accept="image/*" onchange="loadImg(event)">
@@ -210,6 +226,10 @@ th,td{
 </select>
 <button onclick="addSkill()">Add Skill</button>
 
+<h3>Experience</h3>
+<textarea placeholder="Experience / Internship / Projects"
+ oninput="setText('experience',this.value)"></textarea>
+
 <h3>Education</h3>
 <div id="eduForm"></div>
 <button onclick="addEdu()">+ Add Qualification</button>
@@ -224,21 +244,26 @@ th,td{
 <div class="resume design-classic" id="resume">
 
 <div class="header">
+ <img id="photo" class="photo hide">
  <h1 id="name">Your Name</h1>
+
+ <div class="contact-line">
+  📞 <span id="phone"></span> &nbsp; | &nbsp;
+  📧 <span id="email"></span> &nbsp; | &nbsp;
+  📅 <span id="dob"></span>
+ </div>
+
+ <div class="contact-line">
+  🏠 <span id="address"></span> -
+  <span id="pin"></span> &nbsp; | &nbsp;
+  <span id="gender"></span> &nbsp; | &nbsp;
+  <span id="nation"></span>
+ </div>
 </div>
 
 <div class="main">
 
-<div class="left">
- <img id="photo" class="photo hide"><br>
- 📞 <span id="phone"></span><br>
- 📧 <span id="email"></span><br>
- 📅 <span id="dob"></span><br>
- 🏠 <span id="address"></span><br>
- 🔢 <span id="pin"></span><br>
- Gender: <span id="gender"></span><br>
- Nationality: <span id="nation"></span>
-</div>
+<div class="left"></div>
 
 <div class="right">
 
@@ -247,6 +272,9 @@ th,td{
 
 <div class="section-title">Skills</div>
 <ul id="skills"></ul>
+
+<div class="section-title">Experience</div>
+<p id="experience"></p>
 
 <div class="section-title">Education</div>
 <table>
@@ -272,6 +300,14 @@ function setDesign(el,d){
  document.querySelectorAll('.design-card').forEach(x=>x.classList.remove('active'));
  el.classList.add('active');
  resume.className="resume design-"+d;
+}
+
+/* DOB */
+function setDOB(v){
+ if(!v){dob.innerText="";return;}
+ let d=new Date(v);
+ let opt={day:'2-digit',month:'long',year:'numeric'};
+ dob.innerText=d.toLocaleDateString('en-GB',opt);
 }
 
 /* Validation */
@@ -327,4 +363,4 @@ function renderEdu(){
 </script>
 
 </body>
-  </html>
+ </html>
