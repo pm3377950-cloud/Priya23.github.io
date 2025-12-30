@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Professional Resume Maker</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advanced Resume Maker</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-body{margin:0;font-family:"Times New Roman",serif;background:#e5e7eb}
+body{margin:0;font-family:Times New Roman;background:#e5e7eb}
 .app{display:flex;flex-wrap:wrap}
 
 /* FORM */
@@ -16,77 +16,73 @@ body{margin:0;font-family:"Times New Roman",serif;background:#e5e7eb}
  background:#fff;
  padding:14px;
 }
-.form h3{
- margin:10px 0;
- font-size:16px;
- border-bottom:1px solid #ccc;
-}
+h3{margin:10px 0;border-bottom:1px solid #ccc}
 input,select,textarea{
- width:100%;
- padding:8px;
- margin-bottom:6px;
- border:1px solid #999;
- font-family:inherit;
+ width:100%;padding:8px;margin-bottom:6px;
+ border:1px solid #999;font-family:inherit
 }
 button{padding:8px 12px;margin:6px 0}
 
 /* DESIGN CARDS */
-.design-box{display:flex;gap:10px}
+.design-box{display:flex;gap:10px;flex-wrap:wrap}
 .design-card{
- width:110px;
- border:1px solid #ccc;
- padding:6px;
- text-align:center;
- cursor:pointer;
- border-radius:6px;
- background:#fff;
+ width:120px;border:1px solid #ccc;
+ padding:6px;border-radius:8px;
+ text-align:center;cursor:pointer;
 }
 .design-card.active{
- border:2px solid #2563eb;
- background:#eff6ff;
+ border:2px solid #2563eb;background:#eff6ff
 }
-.thumb{height:80px;border:1px solid #999;margin-bottom:5px}
-.classic-thumb{background:linear-gradient(#e6e6e6 20%,#fff 20%)}
-.professional-thumb{background:linear-gradient(90deg,#1f2937 6px,#fff 6px)}
-.modern-thumb{box-shadow:0 0 6px rgba(0,0,0,.3)}
+.mini{height:90px;border:1px solid #999;border-radius:4px}
+.mini-head{height:18px}
+.mini-line{height:6px;margin:6px}
+.classic-mini .mini-head{background:#ccc}
+.professional-mini{background:linear-gradient(90deg,#111 10px,#fff 10px)}
+.blue-mini .mini-head{background:#2563eb}
+.green-mini .mini-head{background:#16a34a}
+.red-mini .mini-head{background:#dc2626}
 
 /* PREVIEW */
 .preview{flex:1;padding:20px}
 .resume{
- max-width:900px;
- margin:auto;
- background:#fff;
- padding:30px;
+ max-width:900px;margin:auto;
+ background:#fff;padding:20px
 }
-
-/* DESIGNS */
 .design-classic{border:1px solid #000}
-.design-professional{border:2px solid #1f2937}
-.design-modern{box-shadow:0 0 10px rgba(0,0,0,.2)}
+.design-professional{border:2px solid #111}
+.design-blue{border-top:10px solid #2563eb}
+.design-green{border-top:10px solid #16a34a}
+.design-red{border-top:10px solid #dc2626}
 
-/* HEADER */
-.header{display:flex;justify-content:space-between}
+.section-title{
+ margin-top:20px;padding:6px;
+ font-weight:bold;text-transform:uppercase;
+ border-bottom:2px solid #000
+}
+.design-blue .section-title{color:#2563eb}
+.design-green .section-title{color:#16a34a}
+.design-red .section-title{color:#dc2626}
+
+/* TWO COLUMN */
+.two-col{display:grid;grid-template-columns:30% 70%;gap:20px}
+.left{background:#f3f4f6;padding:12px}
+.right{padding:12px}
+
 .photo{
- width:120px;height:140px;
- object-fit:cover;
- border:1px solid #000;
+ width:120px;height:140px;object-fit:cover;
+ border:1px solid #000
 }
 .hide{display:none}
 
-/* SECTIONS */
-.section-title{
- margin-top:22px;
- padding:6px 10px;
- border:1px solid #000;
- background:#e6e6e6;
- font-weight:bold;
- text-transform:uppercase;
-}
-.section-content{padding:10px 6px;font-size:15px;line-height:1.5}
+/* EDUCATION TABLE */
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #000;padding:6px;font-size:14px}
 
+@page{size:A4;margin:15mm}
 @media print{
  body{background:#fff}
  .form{display:none}
+ .resume{border:none}
 }
 </style>
 </head>
@@ -95,30 +91,32 @@ button{padding:8px 12px;margin:6px 0}
 
 <div class="app">
 
-<!-- ================= FORM ================= -->
+<!-- FORM -->
 <div class="form">
 
-<h3>Select Resume Design</h3>
+<h3>Resume Design</h3>
 <div class="design-box">
  <div class="design-card active" onclick="selectDesign(this,'classic')">
-  <div class="thumb classic-thumb"></div>
-  <p>Classic</p>
+  <div class="mini classic-mini"><div class="mini-head"></div></div>Classic
  </div>
  <div class="design-card" onclick="selectDesign(this,'professional')">
-  <div class="thumb professional-thumb"></div>
-  <p>Professional</p>
+  <div class="mini professional-mini"></div>Professional
  </div>
- <div class="design-card" onclick="selectDesign(this,'modern')">
-  <div class="thumb modern-thumb"></div>
-  <p>Modern</p>
+ <div class="design-card" onclick="selectDesign(this,'blue')">
+  <div class="mini blue-mini"><div class="mini-head"></div></div>Blue
+ </div>
+ <div class="design-card" onclick="selectDesign(this,'green')">
+  <div class="mini green-mini"><div class="mini-head"></div></div>Green
+ </div>
+ <div class="design-card" onclick="selectDesign(this,'red')">
+  <div class="mini red-mini"><div class="mini-head"></div></div>Red
  </div>
 </div>
 
 <h3>Basic Details</h3>
-<input placeholder="Full Name *" oninput="setText('name',this.value)">
-<input placeholder="Role / Designation" oninput="setText('role',this.value)">
-<input placeholder="Email *" oninput="setText('email',this.value)">
-<input placeholder="Phone *" oninput="setText('phone',this.value)">
+<input placeholder="Full Name *" required oninput="setText('name',this.value)">
+<input placeholder="Email *" required oninput="setText('email',this.value)">
+<input placeholder="Phone *" required oninput="setText('phone',this.value)">
 <input type="date" oninput="setText('dob',this.value)">
 <select onchange="setText('gender',this.value)">
  <option value="">Gender</option><option>Male</option><option>Female</option>
@@ -128,57 +126,68 @@ button{padding:8px 12px;margin:6px 0}
 
 <h3>Career Objective</h3>
 <select onchange="setText('objective',this.value)">
- <option value="">Select Objective</option>
- <option>Motivated individual seeking an opportunity to grow professionally.</option>
- <option>Hardworking fresher aiming to contribute to organizational success.</option>
- <option>Dedicated candidate looking for a responsible position.</option>
+ <option value="">Select</option>
+ <option>Motivated individual seeking growth opportunity.</option>
+ <option>Hardworking fresher aiming to contribute to success.</option>
+ <option>Dedicated candidate looking for responsible role.</option>
 </select>
-<textarea placeholder="Or write your own" oninput="setText('objective',this.value)"></textarea>
+<textarea placeholder="Write your own" oninput="setText('objective',this.value)"></textarea>
 
 <h3>Skills</h3>
-<label><input type="checkbox" onchange="skill(this)"> MS Word</label><br>
-<label><input type="checkbox" onchange="skill(this)"> Excel</label><br>
-<label><input type="checkbox" onchange="skill(this)"> Communication</label><br>
-<label><input type="checkbox" onchange="skill(this)"> Computer Basics</label>
+<select id="skillSelect">
+ <option value="">Select Skill</option>
+ <option>MS Word</option>
+ <option>MS Excel</option>
+ <option>Computer Basics</option>
+ <option>Communication</option>
+</select>
+<button onclick="addSkill()">Add Skill</button>
 
-<h3>Qualification</h3>
+<h3>Education</h3>
 <div id="eduForm"></div>
-<button type="button" onclick="addEdu()">+ Add Qualification</button>
+<button onclick="addEdu()">+ Add Qualification</button>
+
+<h3>Font</h3>
+<select onchange="setFont(this.value)">
+ <option>Times New Roman</option>
+ <option>Arial</option>
+ <option>Calibri</option>
+ <option>Georgia</option>
+</select>
 
 <button onclick="window.print()">Download PDF</button>
 
 </div>
 
-<!-- ================= PREVIEW ================= -->
+<!-- PREVIEW -->
 <div class="preview">
 <div class="resume design-classic" id="resume">
 
-<div class="header">
- <div>
-  <h1 id="name">Your Name</h1>
-  <p id="role">Designation</p>
-  <p>📧 <span id="email">email@example.com</span></p>
-  <p>📞 <span id="phone">+91-XXXXXXXXXX</span></p>
- </div>
- <img id="photo" class="photo hide">
+<div class="two-col">
+<div class="left">
+ <img id="photo" class="photo hide"><br><br>
+ 📞 <span id="phone"></span><br>
+ 📧 <span id="email"></span><br>
+ 📅 <span id="dob"></span><br>
+ Gender: <span id="gender"></span><br>
+ Nationality: <span id="nation"></span>
 </div>
 
-<div class="section-title">Career Objective</div>
-<div class="section-content" id="objective">Objective will appear here</div>
+<div class="right">
+ <h1 id="name">Your Name</h1>
 
-<div class="section-title">Skills</div>
-<div class="section-content"><ul id="skills"></ul></div>
+ <div class="section-title">Objective</div>
+ <div id="objective"></div>
 
-<div class="section-title">Education</div>
-<div class="section-content" id="educationPreview">
- Qualification details will appear here
+ <div class="section-title">Skills</div>
+ <ul id="skills"></ul>
+
+ <div class="section-title">Education</div>
+ <table>
+  <tr><th>Qualification</th><th>Board</th><th>Year</th><th>%</th></tr>
+  <tbody id="eduPreview"></tbody>
+ </table>
 </div>
-
-<div class="section-title">Personal Details</div>
-<div class="section-content">
- 📅 DOB: <span id="dob">DD/MM/YYYY</span><br>
- Gender: <span id="gender">--</span><br>
- Nationality: <span id="nation">--</span>
 </div>
 
 </div>
@@ -188,67 +197,53 @@ button{padding:8px 12px;margin:6px 0}
 
 <script>
 function setText(id,v){document.getElementById(id).innerText=v||""}
+function setFont(f){resume.style.fontFamily=f}
 
-/* Photo optional */
+function selectDesign(card,d){
+ document.querySelectorAll('.design-card').forEach(c=>c.classList.remove('active'));
+ card.classList.add('active');
+ resume.className="resume design-"+d;
+}
+
+/* Photo */
 function loadImg(e){
- if(!e.target.files[0])return;
  let r=new FileReader();
  r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
  r.readAsDataURL(e.target.files[0]);
 }
 
 /* Skills */
-let skills=[];
-function skill(el){
- if(el.checked)skills.push(el.parentNode.innerText.trim());
- else skills=skills.filter(s=>s!==el.parentNode.innerText.trim());
- skillsEl.innerHTML="";
- skills.forEach(s=>{
-  let li=document.createElement("li");
-  li.innerText=s;
-  skillsEl.appendChild(li);
- });
+let skillsArr=[];
+function addSkill(){
+ let v=skillSelect.value;
+ if(v && !skillsArr.includes(v)){
+  skillsArr.push(v);
+  skills.innerHTML=skillsArr.map(s=>"<li>"+s+"</li>").join("");
+ }
 }
 
-/* Education add */
-let eduData=[];
+/* Education */
+let edu=[];
 function addEdu(){
- let i=eduData.length;
- eduData.push({});
+ let i=edu.length;edu.push({});
  let d=document.createElement("div");
  d.innerHTML=`
- <select onchange="updateEdu(${i},'level',this.value)">
-  <option value="">Qualification</option>
-  <option>10th</option><option>12th</option>
-  <option>Diploma</option><option>ITI</option>
-  <option>Graduation</option><option>Post Graduation</option>
- </select>
- <input placeholder="Board / University" oninput="updateEdu(${i},'board',this.value)">
- <input placeholder="School / College" oninput="updateEdu(${i},'inst',this.value)">
- <input placeholder="Year" oninput="updateEdu(${i},'year',this.value)">
- <input placeholder="Percentage / CGPA" oninput="updateEdu(${i},'per',this.value)">
+ <input placeholder="Qualification" oninput="setEdu(${i},'q',this.value)">
+ <input placeholder="Board" oninput="setEdu(${i},'b',this.value)">
+ <input placeholder="Year" oninput="setEdu(${i},'y',this.value)">
+ <input placeholder="%" oninput="setEdu(${i},'p',this.value)">
  <hr>`;
  eduForm.appendChild(d);
 }
-function updateEdu(i,k,v){eduData[i][k]=v;renderEdu()}
+function setEdu(i,k,v){edu[i][k]=v;renderEdu()}
 function renderEdu(){
- let h="";
- eduData.forEach(e=>{
-  if(e.level){
-   h+=`<p><b>${e.level}</b> (${e.year||""})<br>
-   ${e.inst||""}<br>${e.board||""}<br>
-   Percentage: ${e.per||"--"}</p>`;
+ eduPreview.innerHTML="";
+ edu.forEach(e=>{
+  if(e.q){
+   eduPreview.innerHTML+=
+   `<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
   }
  });
- educationPreview.innerHTML=h||"Qualification details will appear here";
-}
-
-/* Design select */
-function selectDesign(card,d){
- document.querySelectorAll(".design-card").forEach(c=>c.classList.remove("active"));
- card.classList.add("active");
- resume.classList.remove("design-classic","design-professional","design-modern");
- resume.classList.add("design-"+d);
 }
 </script>
 
