@@ -1,168 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Professional Resume Maker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- PDF + IMAGE LIBRARIES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
-/* ===== GLOBAL ===== */
-body{
- margin:0;
- background:#d1d5db;
- font-family:Georgia,serif;
-}
+body{margin:0;background:#d1d5db;font-family:Georgia,serif}
 .app{display:flex;flex-wrap:wrap}
 
-/* ===== FORM ===== */
+/* FORM */
 .form{
  width:100%;
- max-width:380px;
+ max-width:360px;
  background:#fff;
- padding:14px;
+ padding:14px
 }
-h3{
- margin:12px 0;
- border-bottom:2px solid #000;
- font-size:18px;
-}
+h3{border-bottom:2px solid #000;margin:12px 0}
 input,select,textarea{
- width:100%;
- padding:8px;
- margin-bottom:6px;
- border:1px solid #999;
- font-family:inherit;
+ width:100%;padding:8px;margin-bottom:6px;
+ border:1px solid #999;font-family:inherit
 }
 input:valid{border-color:green}
-button{
- padding:8px 12px;
- margin:6px 0;
- cursor:pointer;
-}
-.tick{
- color:green;
- font-size:13px;
- display:none;
-}
+button{padding:8px 12px;margin:6px 0;cursor:pointer}
+.tick{color:green;font-size:13px;display:none}
 
-/* ===== TEMPLATE SELECT ===== */
-.design-box{display:flex;gap:8px;flex-wrap:wrap}
-.design-card{
- width:110px;
- border:1px solid #aaa;
- padding:6px;
- border-radius:6px;
- text-align:center;
- cursor:pointer;
- font-size:13px;
-}
-.design-card.active{
- border:2px solid #000;
- background:#f3f4f6;
-}
-
-/* ===== PREVIEW ===== */
-.preview{
- flex:1;
- padding:40px 0;
- background:#d1d5db;
-}
+/* PREVIEW */
+.preview{flex:1;padding:40px 0}
 .resume{
- width:794px;
- min-height:1123px;
- margin:auto;
- padding:40px 60px;
- background:#fff;
- box-shadow:0 0 25px rgba(0,0,0,.3);
+ width:794px;min-height:1123px;
+ margin:auto;background:#fff;
+ padding:40px 40px;
+ box-shadow:0 0 25px rgba(0,0,0,.3)
 }
 
-/* ===== TEMPLATES ===== */
-.design-classic{font-family:Georgia,serif}
-.design-modern{font-family:Calibri,sans-serif}
-.design-elegant{font-family:"Times New Roman",serif}
-.design-blue{font-family:Arial;border-top:10px solid #2563eb}
-.design-green{font-family:Arial;border-top:10px solid #16a34a}
-
-/* ===== HEADER ===== */
-.header{
- text-align:center;
- padding-bottom:16px;
- border-bottom:2px solid #000;
-}
+/* HEADER */
+.header{text-align:center;border-bottom:2px solid #000;padding-bottom:14px}
 .photo{
- width:120px;
- height:150px;
- object-fit:cover;
- border:1px solid #000;
- display:block;
- margin:0 auto 12px auto;
+ width:120px;height:150px;object-fit:cover;
+ border:1px solid #000;display:block;
+ margin:0 auto 10px auto
 }
 .hide{display:none}
-.header h1{
- margin:0;
- font-size:32px;
- letter-spacing:1px;
-}
-.contact-line{
- margin-top:6px;
- font-size:15px;
- line-height:1.6;
- letter-spacing:.4px;
-}
+.header h1{margin:0;font-size:32px}
+.contact-line{font-size:15px;margin-top:6px;line-height:1.6}
 
-/* ===== MAIN CONTENT ===== */
-.main{
- margin-top:25px;
- display:grid;
- grid-template-columns:32% 68%;
- gap:25px;
-}
-.left{
- background:#f3f4f6;
- padding:14px;
-}
-.right{padding:10px}
-
-/* ===== SECTIONS ===== */
+/* CONTENT */
+.main{margin-top:25px}
 .section-title{
- margin-top:18px;
- padding:6px 10px;
- background:#e5e7eb;
- border-left:5px solid #000;
- font-weight:bold;
- text-transform:uppercase;
+ margin-top:20px;padding:6px 10px;
+ background:#e5e7eb;border-left:5px solid #000;
+ font-weight:bold;text-transform:uppercase
 }
-p,li,td{
- font-size:15px;
- line-height:1.6;
-}
-
-/* ===== TABLE ===== */
 table{width:100%;border-collapse:collapse}
-th,td{
- border:1px solid #000;
- padding:6px;
- font-size:14px;
-}
+th,td{border:1px solid #000;padding:6px;font-size:14px}
 
-/* ===== AD ===== */
+/* AD */
 .ad-box{
- max-width:794px;
- height:90px;
- margin:15px auto;
- background:#f8fafc;
+ max-width:794px;height:90px;margin:15px auto;
  border:2px dashed #94a3b8;
- display:flex;
- align-items:center;
- justify-content:center;
- color:#64748b;
+ display:flex;align-items:center;justify-content:center;
+ background:#f8fafc;color:#64748b
 }
 
-/* ===== PRINT ===== */
+/* PRINT */
 @page{size:A4;margin:15mm}
 @media print{
- body{background:#fff}
  .form,.ad-box{display:none}
+ body{background:#fff}
  .resume{box-shadow:none}
 }
 </style>
@@ -172,27 +81,16 @@ th,td{
 
 <div class="app">
 
-<!-- ================= FORM ================= -->
+<!-- FORM -->
 <div class="form">
-
-<h3>Template</h3>
-<div class="design-box">
- <div class="design-card active" onclick="setDesign(this,'classic')">Classic</div>
- <div class="design-card" onclick="setDesign(this,'modern')">Modern</div>
- <div class="design-card" onclick="setDesign(this,'elegant')">Elegant</div>
- <div class="design-card" onclick="setDesign(this,'blue')">Blue</div>
- <div class="design-card" onclick="setDesign(this,'green')">Green</div>
-</div>
 
 <h3>Personal Details</h3>
 <input placeholder="Full Name *" required oninput="setText('name',this.value)">
 
-<input type="email" placeholder="Email *" required
- oninput="validateEmail(this)">
+<input type="email" placeholder="Email *" required oninput="validateEmail(this)">
 <span id="emailTick" class="tick">✔ valid</span>
 
-<input type="tel" placeholder="Phone (10 digit) *" pattern="[0-9]{10}" required
- oninput="validatePhone(this)">
+<input type="tel" placeholder="Phone (10 digit) *" pattern="[0-9]{10}" required oninput="validatePhone(this)">
 <span id="phoneTick" class="tick">✔ valid</span>
 
 <input type="date" required oninput="setDOB(this.value)">
@@ -201,8 +99,7 @@ th,td{
 <input placeholder="Nationality" oninput="setText('nation',this.value)">
 <select onchange="setText('gender',this.value)">
  <option value="">Gender</option>
- <option>Male</option>
- <option>Female</option>
+ <option>Male</option><option>Female</option>
 </select>
 
 <input type="file" accept="image/*" onchange="loadImg(event)">
@@ -234,38 +131,37 @@ th,td{
 <div id="eduForm"></div>
 <button onclick="addEdu()">+ Add Qualification</button>
 
-<button onclick="window.print()">Download PDF</button>
+<h3>Download / Share</h3>
+<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="downloadImage()">Download Image</button>
+<button onclick="shareResume()">Share</button>
 
 </div>
 
-<!-- ================= PREVIEW ================= -->
+<!-- PREVIEW -->
 <div class="preview">
 
-<div class="resume design-classic" id="resume">
+<div class="resume" id="resume">
 
 <div class="header">
  <img id="photo" class="photo hide">
  <h1 id="name">Your Name</h1>
 
  <div class="contact-line">
-  📞 <span id="phone"></span> &nbsp; | &nbsp;
-  📧 <span id="email"></span> &nbsp; | &nbsp;
+  📞 <span id="phone"></span> |
+  📧 <span id="email"></span> |
   📅 <span id="dob"></span>
  </div>
 
  <div class="contact-line">
   🏠 <span id="address"></span> -
-  <span id="pin"></span> &nbsp; | &nbsp;
-  <span id="gender"></span> &nbsp; | &nbsp;
+  <span id="pin"></span> |
+  <span id="gender"></span> |
   <span id="nation"></span>
  </div>
 </div>
 
 <div class="main">
-
-<div class="left"></div>
-
-<div class="right">
 
 <div class="section-title">Career Objective</div>
 <p id="objective"></p>
@@ -285,8 +181,6 @@ th,td{
 </div>
 </div>
 
-</div>
-
 <div class="ad-box">Advertisement Space</div>
 
 </div>
@@ -295,39 +189,27 @@ th,td{
 <script>
 function setText(id,v){document.getElementById(id).innerText=v||""}
 
-/* Template */
-function setDesign(el,d){
- document.querySelectorAll('.design-card').forEach(x=>x.classList.remove('active'));
- el.classList.add('active');
- resume.className="resume design-"+d;
-}
-
-/* DOB */
 function setDOB(v){
- if(!v){dob.innerText="";return;}
+ if(!v){dob.innerText="";return}
  let d=new Date(v);
- let opt={day:'2-digit',month:'long',year:'numeric'};
- dob.innerText=d.toLocaleDateString('en-GB',opt);
+ dob.innerText=d.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})
 }
 
-/* Validation */
 function validatePhone(i){
  phone.innerText=i.value;
- phoneTick.style.display=(/^[0-9]{10}$/.test(i.value))?"inline":"none";
+ phoneTick.style.display=/^[0-9]{10}$/.test(i.value)?"inline":"none"
 }
 function validateEmail(i){
  email.innerText=i.value;
- emailTick.style.display=(/^\S+@\S+\.\S+$/.test(i.value))?"inline":"none";
+ emailTick.style.display=/^\S+@\S+\.\S+$/.test(i.value)?"inline":"none"
 }
 
-/* Photo */
 function loadImg(e){
  let r=new FileReader();
  r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
- r.readAsDataURL(e.target.files[0]);
+ r.readAsDataURL(e.target.files[0])
 }
 
-/* Skills */
 let skillsArr=[];
 function addSkill(){
  let v=skillSelect.value;
@@ -337,7 +219,6 @@ function addSkill(){
  }
 }
 
-/* Education */
 let edu=[];
 function addEdu(){
  let i=edu.length;edu.push({});
@@ -359,6 +240,31 @@ function renderEdu(){
    `<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
   }
  });
+}
+
+function downloadPDF(){
+ html2pdf().from(resume).set({
+  filename:'Resume.pdf',
+  jsPDF:{format:'a4',orientation:'portrait'}
+ }).save();
+}
+
+function downloadImage(){
+ html2canvas(resume,{scale:2}).then(c=>{
+  let a=document.createElement("a");
+  a.download="Resume.png";
+  a.href=c.toDataURL();
+  a.click();
+ });
+}
+
+async function shareResume(){
+ if(!navigator.canShare){alert("Share not supported");return}
+ const blob=await html2pdf().from(resume).outputPdf('blob');
+ const file=new File([blob],"Resume.pdf",{type:"application/pdf"});
+ if(navigator.canShare({files:[file]})){
+  navigator.share({files:[file],title:"My Resume"});
+ }
 }
 </script>
 
