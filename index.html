@@ -6,204 +6,251 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{margin:0;font-family:system-ui;background:#f1f5f9}
-.top{background:#0f172a;color:#fff;padding:14px;text-align:center;font-size:18px}
-.container{padding:10px}
-.card{background:#fff;padding:14px;border-radius:12px;margin-bottom:12px}
-.card h3{margin:0 0 8px;color:#0ea5e9}
+body{margin:0;font-family:"Times New Roman",serif;background:#e5e7eb}
+.app{display:flex;flex-wrap:wrap}
 
+/* FORM */
+.form{
+ width:100%;
+ max-width:380px;
+ background:#fff;
+ padding:14px;
+}
+.form h3{
+ margin:10px 0;
+ font-size:16px;
+ border-bottom:1px solid #ccc;
+}
 input,select,textarea{
- width:100%;padding:10px;margin-bottom:8px;
- border-radius:8px;border:1px solid #cbd5e1;
-}
-
-/* ===== PREVIEW ===== */
-.resume-wrapper{background:#e5e7eb;padding:12px;border-radius:14px}
-.resume{background:#fff;padding:18px;border-radius:10px;position:relative}
-
-/* Templates */
-.template-govt{border:2px solid #000}
-.template-private{border:2px solid #2563eb}
-.template-modern{border:2px dashed #16a34a}
-
-/* Colors */
-.blue{--main:#2563eb}
-.green{--main:#16a34a}
-.gray{--main:#374151}
-
-.section h4{
- border-bottom:2px solid var(--main);
- color:var(--main);
+ width:100%;
+ padding:8px;
  margin-bottom:6px;
+ border:1px solid #999;
+ font-family:inherit;
+}
+button{padding:8px 12px;margin:6px 0}
+
+/* DESIGN CARDS */
+.design-box{display:flex;gap:10px}
+.design-card{
+ width:110px;
+ border:1px solid #ccc;
+ padding:6px;
+ text-align:center;
+ cursor:pointer;
+ border-radius:6px;
+ background:#fff;
+}
+.design-card.active{
+ border:2px solid #2563eb;
+ background:#eff6ff;
+}
+.thumb{height:80px;border:1px solid #999;margin-bottom:5px}
+.classic-thumb{background:linear-gradient(#e6e6e6 20%,#fff 20%)}
+.professional-thumb{background:linear-gradient(90deg,#1f2937 6px,#fff 6px)}
+.modern-thumb{box-shadow:0 0 6px rgba(0,0,0,.3)}
+
+/* PREVIEW */
+.preview{flex:1;padding:20px}
+.resume{
+ max-width:900px;
+ margin:auto;
+ background:#fff;
+ padding:30px;
 }
 
-.name{font-size:24px;font-weight:700}
-.photo{float:right;width:90px;height:110px;object-fit:cover;border:1px solid #999}
+/* DESIGNS */
+.design-classic{border:1px solid #000}
+.design-professional{border:2px solid #1f2937}
+.design-modern{box-shadow:0 0 10px rgba(0,0,0,.2)}
 
-.professional{line-height:1.5}
-.attractive{line-height:1.7}
-.attractive .section{background:#f8fafc;padding:6px;border-radius:6px}
-
-.bottom{
- position:fixed;bottom:0;width:100%;
- display:flex
+/* HEADER */
+.header{display:flex;justify-content:space-between}
+.photo{
+ width:120px;height:140px;
+ object-fit:cover;
+ border:1px solid #000;
 }
-.bottom button{
- flex:1;padding:14px;border:none;
- background:#0ea5e9;color:#fff;font-size:16px
-}
-
-.skill-box label{display:block}
 .hide{display:none}
+
+/* SECTIONS */
+.section-title{
+ margin-top:22px;
+ padding:6px 10px;
+ border:1px solid #000;
+ background:#e6e6e6;
+ font-weight:bold;
+ text-transform:uppercase;
+}
+.section-content{padding:10px 6px;font-size:15px;line-height:1.5}
+
+@media print{
+ body{background:#fff}
+ .form{display:none}
+}
 </style>
 </head>
 
 <body>
 
-<div class="top">Professional Resume Maker</div>
+<div class="app">
 
-<div class="container">
+<!-- ================= FORM ================= -->
+<div class="form">
 
-<!-- SETTINGS -->
-<div class="card">
-<h3>Template & Style</h3>
-<select onchange="setTemplate(this.value)">
- <option value="govt">Government</option>
- <option value="private">Private</option>
- <option value="modern">Modern</option>
-</select>
-
-<select onchange="setStyle(this.value)">
- <option value="professional">Professional</option>
- <option value="attractive">Attractive</option>
-</select>
-
-<select onchange="setColor(this.value)">
- <option value="blue">Blue</option>
- <option value="green">Green</option>
- <option value="gray">Gray</option>
-</select>
+<h3>Select Resume Design</h3>
+<div class="design-box">
+ <div class="design-card active" onclick="selectDesign(this,'classic')">
+  <div class="thumb classic-thumb"></div>
+  <p>Classic</p>
+ </div>
+ <div class="design-card" onclick="selectDesign(this,'professional')">
+  <div class="thumb professional-thumb"></div>
+  <p>Professional</p>
+ </div>
+ <div class="design-card" onclick="selectDesign(this,'modern')">
+  <div class="thumb modern-thumb"></div>
+  <p>Modern</p>
+ </div>
 </div>
 
-<!-- PERSONAL -->
-<div class="card">
-<h3>Personal Details</h3>
-<input placeholder="Full Name *" required oninput="set('name',this.value)">
-<input placeholder="Mobile *" required oninput="set('phone',this.value)">
-<input placeholder="Email *" required oninput="set('email',this.value)">
-<input type="date" oninput="set('dob',this.value)">
-<select onchange="set('gender',this.value)">
- <option value="">Gender</option>
- <option>Male</option><option>Female</option>
+<h3>Basic Details</h3>
+<input placeholder="Full Name *" oninput="setText('name',this.value)">
+<input placeholder="Role / Designation" oninput="setText('role',this.value)">
+<input placeholder="Email *" oninput="setText('email',this.value)">
+<input placeholder="Phone *" oninput="setText('phone',this.value)">
+<input type="date" oninput="setText('dob',this.value)">
+<select onchange="setText('gender',this.value)">
+ <option value="">Gender</option><option>Male</option><option>Female</option>
 </select>
-<input placeholder="Nationality" oninput="set('nation',this.value)">
-</div>
-
-<!-- PHOTO -->
-<div class="card">
-<h3>Photo</h3>
+<input placeholder="Nationality" oninput="setText('nation',this.value)">
 <input type="file" accept="image/*" onchange="loadImg(event)">
-</div>
 
-<!-- OBJECTIVE -->
-<div class="card">
-<h3>Objective</h3>
-<select onchange="set('objective',this.value)">
+<h3>Career Objective</h3>
+<select onchange="setText('objective',this.value)">
  <option value="">Select Objective</option>
- <option>A motivated student seeking an opportunity to enhance skills and gain experience.</option>
- <option>Hardworking fresher aiming to contribute to organizational growth.</option>
- <option>Dedicated individual looking for a responsible position.</option>
+ <option>Motivated individual seeking an opportunity to grow professionally.</option>
+ <option>Hardworking fresher aiming to contribute to organizational success.</option>
+ <option>Dedicated candidate looking for a responsible position.</option>
 </select>
-<textarea placeholder="Or write your own" oninput="set('objective',this.value)"></textarea>
-</div>
+<textarea placeholder="Or write your own" oninput="setText('objective',this.value)"></textarea>
 
-<!-- EDUCATION -->
-<div class="card">
-<h3>Education</h3>
-<textarea placeholder="10th / 12th / Graduation (Board & Year)" oninput="set('edu',this.value)"></textarea>
-</div>
-
-<!-- SKILLS -->
-<div class="card">
 <h3>Skills</h3>
-<div class="skill-box">
-<label><input type="checkbox" onchange="skill(this)"> MS Word</label>
-<label><input type="checkbox" onchange="skill(this)"> Excel</label>
-<label><input type="checkbox" onchange="skill(this)"> Communication</label>
+<label><input type="checkbox" onchange="skill(this)"> MS Word</label><br>
+<label><input type="checkbox" onchange="skill(this)"> Excel</label><br>
+<label><input type="checkbox" onchange="skill(this)"> Communication</label><br>
 <label><input type="checkbox" onchange="skill(this)"> Computer Basics</label>
-</div>
-</div>
 
-<!-- PREVIEW -->
-<div class="resume-wrapper">
-<div class="resume template-govt professional blue" id="resume">
+<h3>Qualification</h3>
+<div id="eduForm"></div>
+<button type="button" onclick="addEdu()">+ Add Qualification</button>
 
-<img class="photo" id="photo">
-
-<div class="name" id="name">Your Name</div>
-<p>📞 <span id="phone">Mobile</span></p>
-<p>✉️ <span id="email">Email</span></p>
-
-<div class="section">
-<h4>Personal</h4>
-DOB: <span id="dob">DD/MM/YYYY</span><br>
-Gender: <span id="gender">---</span><br>
-Nationality: <span id="nation">---</span>
-</div>
-
-<div class="section">
-<h4>Objective</h4>
-<p id="objective">Your career objective will appear here</p>
-</div>
-
-<div class="section">
-<h4>Education</h4>
-<p id="edu">Education details</p>
-</div>
-
-<div class="section">
-<h4>Skills</h4>
-<p id="skills"></p>
-</div>
-
-</div>
-</div>
-
-</div>
-
-<div class="bottom">
 <button onclick="window.print()">Download PDF</button>
+
+</div>
+
+<!-- ================= PREVIEW ================= -->
+<div class="preview">
+<div class="resume design-classic" id="resume">
+
+<div class="header">
+ <div>
+  <h1 id="name">Your Name</h1>
+  <p id="role">Designation</p>
+  <p>📧 <span id="email">email@example.com</span></p>
+  <p>📞 <span id="phone">+91-XXXXXXXXXX</span></p>
+ </div>
+ <img id="photo" class="photo hide">
+</div>
+
+<div class="section-title">Career Objective</div>
+<div class="section-content" id="objective">Objective will appear here</div>
+
+<div class="section-title">Skills</div>
+<div class="section-content"><ul id="skills"></ul></div>
+
+<div class="section-title">Education</div>
+<div class="section-content" id="educationPreview">
+ Qualification details will appear here
+</div>
+
+<div class="section-title">Personal Details</div>
+<div class="section-content">
+ 📅 DOB: <span id="dob">DD/MM/YYYY</span><br>
+ Gender: <span id="gender">--</span><br>
+ Nationality: <span id="nation">--</span>
+</div>
+
+</div>
+</div>
+
 </div>
 
 <script>
-function set(id,v){document.getElementById(id).innerText=v||""}
+function setText(id,v){document.getElementById(id).innerText=v||""}
 
+/* Photo optional */
 function loadImg(e){
+ if(!e.target.files[0])return;
  let r=new FileReader();
- r.onload=()=>photo.src=r.result;
+ r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
  r.readAsDataURL(e.target.files[0]);
 }
 
-let skillArr=[];
+/* Skills */
+let skills=[];
 function skill(el){
- if(el.checked)skillArr.push(el.parentNode.innerText);
- else skillArr=skillArr.filter(s=>s!=el.parentNode.innerText);
- skills.innerText=skillArr.join(", ");
+ if(el.checked)skills.push(el.parentNode.innerText.trim());
+ else skills=skills.filter(s=>s!==el.parentNode.innerText.trim());
+ skillsEl.innerHTML="";
+ skills.forEach(s=>{
+  let li=document.createElement("li");
+  li.innerText=s;
+  skillsEl.appendChild(li);
+ });
 }
 
-function setTemplate(t){
- resume.classList.remove("template-govt","template-private","template-modern");
- resume.classList.add("template-"+t);
+/* Education add */
+let eduData=[];
+function addEdu(){
+ let i=eduData.length;
+ eduData.push({});
+ let d=document.createElement("div");
+ d.innerHTML=`
+ <select onchange="updateEdu(${i},'level',this.value)">
+  <option value="">Qualification</option>
+  <option>10th</option><option>12th</option>
+  <option>Diploma</option><option>ITI</option>
+  <option>Graduation</option><option>Post Graduation</option>
+ </select>
+ <input placeholder="Board / University" oninput="updateEdu(${i},'board',this.value)">
+ <input placeholder="School / College" oninput="updateEdu(${i},'inst',this.value)">
+ <input placeholder="Year" oninput="updateEdu(${i},'year',this.value)">
+ <input placeholder="Percentage / CGPA" oninput="updateEdu(${i},'per',this.value)">
+ <hr>`;
+ eduForm.appendChild(d);
 }
-function setStyle(s){
- resume.classList.remove("professional","attractive");
- resume.classList.add(s);
+function updateEdu(i,k,v){eduData[i][k]=v;renderEdu()}
+function renderEdu(){
+ let h="";
+ eduData.forEach(e=>{
+  if(e.level){
+   h+=`<p><b>${e.level}</b> (${e.year||""})<br>
+   ${e.inst||""}<br>${e.board||""}<br>
+   Percentage: ${e.per||"--"}</p>`;
+  }
+ });
+ educationPreview.innerHTML=h||"Qualification details will appear here";
 }
-function setColor(c){
- resume.classList.remove("blue","green","gray");
- resume.classList.add(c);
+
+/* Design select */
+function selectDesign(card,d){
+ document.querySelectorAll(".design-card").forEach(c=>c.classList.remove("active"));
+ card.classList.add("active");
+ resume.classList.remove("design-classic","design-professional","design-modern");
+ resume.classList.add("design-"+d);
 }
 </script>
 
 </body>
-  </html>
+ </html>
