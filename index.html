@@ -1,12 +1,12 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Advanced Resume Maker</title>
+<title>Professional Resume Maker</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <style>
-body{margin:0;font-family:"Times New Roman";background:#e5e7eb}
+body{margin:0;font-family:Arial;background:#e5e7eb}
 .app{display:flex;flex-wrap:wrap}
 
 /* FORM */
@@ -21,23 +21,12 @@ input,select,textarea{
  width:100%;padding:8px;margin-bottom:6px;
  border:1px solid #999;font-family:inherit
 }
+textarea{resize:none}
 button{padding:8px 12px;margin:6px 0;cursor:pointer}
 
-/* input + tick */
-.input-wrap{position:relative}
-.tick{
- position:absolute;
- right:10px;
- top:50%;
- transform:translateY(-50%);
- color:#16a34a;
- font-weight:bold;
- display:none;
-}
-
-/* validation */
-.valid{border:2px solid #16a34a!important;background:#f0fdf4}
-.invalid{border:2px solid #dc2626!important;background:#fef2f2}
+/* VALIDATION */
+.valid{border-color:green}
+.invalid{border-color:red}
 
 /* DESIGN CARDS */
 .design-box{display:flex;gap:10px;flex-wrap:wrap}
@@ -49,78 +38,82 @@ button{padding:8px 12px;margin:6px 0;cursor:pointer}
 .design-card.active{
  border:2px solid #2563eb;background:#eff6ff
 }
-.mini{height:90px;border:1px solid #999;border-radius:4px}
-.mini-head{height:18px}
-.classic-mini .mini-head{background:#ccc}
-.professional-mini{background:linear-gradient(90deg,#111 10px,#fff 10px)}
-.blue-mini .mini-head{background:#2563eb}
-.green-mini .mini-head{background:#16a34a}
-.red-mini .mini-head{background:#dc2626}
+.mini{height:80px;border-radius:4px}
 
 /* PREVIEW */
-.preview{flex:1;padding:20px}
-
-/* A4 SIZE PREVIEW */
+.preview{
+ flex:1;
+ background:#d1d5db;
+ padding:20px;
+ display:flex;
+ justify-content:center;
+}
 .resume{
- width:210mm;
- min-height:297mm;
- margin:auto;
+ width:880px;
+ min-height:1100px;
  background:#fff;
- padding:20mm;
- box-shadow:0 0 20px rgba(0,0,0,.3);
+ box-shadow:0 0 18px rgba(0,0,0,.25);
+ padding:24px;
 }
 
-/* template borders */
+/* CLASSIC */
 .design-classic{border:1px solid #000}
-.design-professional{border:2px solid #111}
-.design-blue{border-top:10px solid #2563eb}
-.design-green{border-top:10px solid #16a34a}
-.design-red{border-top:10px solid #dc2626}
 
-.section-title{
- margin-top:20px;padding:6px;
- font-weight:bold;text-transform:uppercase;
- border-bottom:2px solid #000
+/* MODERN */
+.design-modern{padding:0}
+.modern-wrap{
+ display:grid;
+ grid-template-columns:32% 68%;
+ min-height:1100px;
 }
-.design-blue .section-title{color:#2563eb}
-.design-green .section-title{color:#16a34a}
-.design-red .section-title{color:#dc2626}
-
-/* TWO COLUMN */
-.two-col{display:grid;grid-template-columns:30% 70%;gap:20px}
-.left{background:#f3f4f6;padding:12px}
-.right{padding:12px}
-
-.photo{
- width:120px;height:140px;object-fit:cover;
- border:1px solid #000
+.modern-left{
+ background:#0f0f0f;color:#fff;padding:20px
 }
-.hide{display:none}
+.modern-right{padding:25px}
+.hex{
+ width:140px;height:160px;
+ clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+ overflow:hidden;margin:auto;border:4px solid #facc15
+}
+.hex img{width:100%;height:100%;object-fit:cover}
+.m-title{color:#facc15;font-weight:bold;margin:18px 0 8px}
+.vline{border-left:3px solid #facc15;padding-left:10px}
+.skill-bar{height:6px;background:#ccc;border-radius:6px}
+.skill-bar span{display:block;height:100%;background:#facc15;border-radius:6px}
+
+/* SIDEBAR */
+.design-sidebar{padding:0}
+.sidebar-wrap{
+ display:grid;
+ grid-template-columns:35% 65%;
+ min-height:1100px;
+}
+.sidebar-left{
+ background:#7a1646;color:#fff;padding:30px 20px
+}
+.sidebar-right{padding:30px}
+.circle-photo{
+ width:150px;height:150px;border-radius:50%;
+ overflow:hidden;margin:auto;border:4px solid #fff
+}
+.circle-photo img{width:100%;height:100%;object-fit:cover}
+.s-name{text-align:center;font-size:24px;font-weight:bold;margin:20px 0}
+.s-info div{display:flex;gap:10px;margin-bottom:12px}
+.s-title{color:#7a1646;font-weight:bold;margin:16px 0}
 
 /* EDUCATION TABLE */
 table{width:100%;border-collapse:collapse}
 th,td{border:1px solid #000;padding:6px;font-size:14px}
 
-/* AD */
-.ad-box{
- width:100%;
- max-width:900px;
- height:90px;
- margin:15px auto;
- background:#f8fafc;
- border:2px dashed #94a3b8;
- display:flex;
- align-items:center;
- justify-content:center;
- color:#64748b;
-}
+/* HIDE */
+.hide{display:none}
 
 /* PRINT */
-@page{size:A4;margin:15mm}
 @media print{
  body{background:#fff}
- .form,.ad-box{display:none!important}
- .resume{box-shadow:none;border:none}
+ .form{display:none}
+ .preview{padding:0}
+ .resume{box-shadow:none}
 }
 </style>
 </head>
@@ -132,61 +125,41 @@ th,td{border:1px solid #000;padding:6px;font-size:14px}
 <!-- FORM -->
 <div class="form">
 
-<h3>Resume Design</h3>
+<h3>Choose Design</h3>
 <div class="design-box">
  <div class="design-card active" onclick="selectDesign(this,'classic')">
-  <div class="mini classic-mini"><div class="mini-head"></div></div>Classic
+  <div class="mini" style="background:#fff"></div>Classic
  </div>
- <div class="design-card" onclick="selectDesign(this,'professional')">
-  <div class="mini professional-mini"></div>Professional
+ <div class="design-card" onclick="selectDesign(this,'modern')">
+  <div class="mini" style="background:#111"></div>Modern
  </div>
- <div class="design-card" onclick="selectDesign(this,'blue')">
-  <div class="mini blue-mini"><div class="mini-head"></div></div>Blue
- </div>
- <div class="design-card" onclick="selectDesign(this,'green')">
-  <div class="mini green-mini"><div class="mini-head"></div></div>Green
- </div>
- <div class="design-card" onclick="selectDesign(this,'red')">
-  <div class="mini red-mini"><div class="mini-head"></div></div>Red
+ <div class="design-card" onclick="selectDesign(this,'sidebar')">
+  <div class="mini" style="background:#7a1646"></div>Sidebar
  </div>
 </div>
 
 <h3>Basic Details</h3>
-<input placeholder="Full Name *" required oninput="name.innerText=this.value">
+<input placeholder="Full Name *" oninput="setText('name',this.value)">
+<input placeholder="Email *" id="emailInput" oninput="validateEmail(this)">
+<input placeholder="Phone *" id="phoneInput" maxlength="10" oninput="validatePhone(this)">
+<input type="date" oninput="setText('dob',this.value)">
+<textarea placeholder="Address" oninput="setText('address',this.value)"></textarea>
+<input placeholder="Pin Code" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'');setText('pincode',this.value)">
 
-<div class="input-wrap">
- <input id="emailInput" placeholder="Email *" required oninput="validateEmail(this)">
- <span class="tick" id="emailTick">✔</span>
-</div>
-
-<div class="input-wrap">
- <input id="phoneInput" placeholder="Phone (10 digit) *" maxlength="10"
- required oninput="validatePhone(this)">
- <span class="tick" id="phoneTick">✔</span>
-</div>
-
-<input type="date" oninput="setDOB(this.value)">
-<select onchange="gender.innerText=this.value">
- <option value="">Gender</option><option>Male</option><option>Female</option>
-</select>
-<input placeholder="Nationality" oninput="nation.innerText=this.value)">
-<input type="file" accept="image/*" onchange="loadImg(event)">
-
-<h3>Career Objective</h3>
-<select onchange="objective.innerText=this.value">
+<h3>Objective</h3>
+<select onchange="setText('objective',this.value)">
  <option value="">Select</option>
- <option>Motivated individual seeking growth opportunity.</option>
- <option>Hardworking fresher aiming to contribute to success.</option>
- <option>Dedicated candidate looking for responsible role.</option>
+ <option>Motivated fresher seeking opportunity to grow.</option>
+ <option>Hardworking individual aiming to contribute.</option>
 </select>
-<textarea placeholder="Write your own" oninput="objective.innerText=this.value"></textarea>
+<textarea placeholder="Write your own" oninput="setText('objective',this.value)"></textarea>
 
 <h3>Skills</h3>
 <select id="skillSelect">
  <option value="">Select Skill</option>
+ <option>Computer Basics</option>
  <option>MS Word</option>
  <option>MS Excel</option>
- <option>Computer Basics</option>
  <option>Communication</option>
 </select>
 <button onclick="addSkill()">Add Skill</button>
@@ -195,92 +168,105 @@ th,td{border:1px solid #000;padding:6px;font-size:14px}
 <div id="eduForm"></div>
 <button onclick="addEdu()">+ Add Qualification</button>
 
-<button onclick="downloadResume()">Download PDF</button>
+<h3>Photo</h3>
+<input type="file" accept="image/*" onchange="loadImg(event)">
+
+<h3>Advertisement</h3>
+<div style="border:1px dashed #999;padding:10px;text-align:center">
+ Ad Space
+</div>
+
+<button onclick="window.print()">Download / Print</button>
 
 </div>
 
 <!-- PREVIEW -->
 <div class="preview">
+
+<!-- CLASSIC -->
 <div class="resume design-classic" id="resume">
+<h1 id="name">Your Name</h1>
+📞 <span id="phone"></span><br>
+📧 <span id="email"></span><br>
+📅 <span id="dob"></span><br>
+📍 <span id="address"></span> <span id="pincode"></span>
 
-<div class="two-col">
-<div class="left">
- <img id="photo" class="photo hide"><br><br>
- 📞 <span id="phone"></span><br>
- 📧 <span id="email"></span><br>
- 📅 <span id="dob"></span><br>
- 🎂 Age: <span id="age"></span><br>
- Gender: <span id="gender"></span><br>
- Nationality: <span id="nation"></span>
+<h3>Objective</h3>
+<div id="objective"></div>
+
+<h3>Skills</h3>
+<ul id="skills"></ul>
+
+<h3>Education</h3>
+<table>
+<tr><th>Qualification</th><th>Board</th><th>Year</th><th>%</th></tr>
+<tbody id="eduPreview"></tbody>
+</table>
 </div>
 
-<div class="right">
- <h1 id="name">Your Name</h1>
-
- <div class="section-title">Objective</div>
- <div id="objective"></div>
-
- <div class="section-title">Skills</div>
- <ul id="skills"></ul>
-
- <div class="section-title">Education</div>
- <table>
-  <tr><th>Qualification</th><th>Board</th><th>Year</th><th>%</th></tr>
-  <tbody id="eduPreview"></tbody>
- </table>
+<!-- MODERN -->
+<div class="resume design-modern hide" id="modernResume">
+<div class="modern-wrap">
+<div class="modern-left">
+<div class="hex"><img id="photo2"></div>
+<div class="m-title">Contact</div>
+<div class="vline">
+<div id="phone2"></div>
+<div id="email2"></div>
+<div id="address2"></div>
+<div id="pincode2"></div>
 </div>
 </div>
-
+<div class="modern-right">
+<h1 id="name2"></h1>
+<p id="objective2"></p>
+<h3>Skills</h3>
+<div id="skills2"></div>
+</div>
+</div>
 </div>
 
-<div class="ad-box">Advertisement Space</div>
+<!-- SIDEBAR -->
+<div class="resume design-sidebar hide" id="sidebarResume">
+<div class="sidebar-wrap">
+<div class="sidebar-left">
+<div class="circle-photo"><img id="photo3"></div>
+<div class="s-name" id="name3"></div>
+<div class="s-info">
+<div>📞 <span id="phone3"></span></div>
+<div>📧 <span id="email3"></span></div>
+<div>📍 <span id="address3"></span></div>
+<div>📮 <span id="pincode3"></span></div>
+</div>
+</div>
+<div class="sidebar-right">
+<div class="s-title">Education</div>
+<ul id="edu3"></ul>
+<div class="s-title">Skills</div>
+<ul id="skills3"></ul>
+</div>
+</div>
 </div>
 
+</div>
 </div>
 
 <script>
-function selectDesign(card,d){
- document.querySelectorAll('.design-card').forEach(c=>c.classList.remove('active'));
- card.classList.add('active');
- resume.className="resume design-"+d;
-}
+function setText(id,v){document.getElementById(id).innerText=v||""}
 
-/* PHOTO */
-function loadImg(e){
- if(!e.target.files.length) return;
- let r=new FileReader();
- r.onload=()=>{photo.src=r.result;photo.classList.remove("hide")}
- r.readAsDataURL(e.target.files[0]);
-}
-
-/* DOB + AGE */
-function setDOB(v){
- if(!v) return;
- dob.innerText=v;
- let d=new Date(v),t=new Date();
- let a=t.getFullYear()-d.getFullYear();
- if(t < new Date(t.getFullYear(),d.getMonth(),d.getDate())) a--;
- age.innerText=a;
-}
-
-/* PHONE */
+/* Validation */
 function validatePhone(i){
- i.value=i.value.replace(/\D/g,'');
- let ok=/^[6-9][0-9]{9}$/.test(i.value);
- phoneTick.style.display= ok?"block":"none";
- i.className= ok?"valid":"invalid";
- phone.innerText= ok?i.value:"";
+ let ok=/^[0-9]{10}$/.test(i.value);
+ i.className=ok?'valid':'invalid';
+ setText('phone',ok?i.value:'');
 }
-
-/* EMAIL */
 function validateEmail(i){
- let ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(i.value);
- emailTick.style.display= ok?"block":"none";
- i.className= ok?"valid":"invalid";
- email.innerText= ok?i.value:"";
+ let ok=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/.test(i.value);
+ i.className=ok?'valid':'invalid';
+ setText('email',ok?i.value:'');
 }
 
-/* SKILLS */
+/* Skills */
 let skillsArr=[];
 function addSkill(){
  let v=skillSelect.value;
@@ -290,7 +276,7 @@ function addSkill(){
  }
 }
 
-/* EDUCATION */
+/* Education */
 let edu=[];
 function addEdu(){
  let i=edu.length;edu.push({});
@@ -306,23 +292,50 @@ function addEdu(){
 function setEdu(i,k,v){edu[i][k]=v;renderEdu()}
 function renderEdu(){
  eduPreview.innerHTML="";
+ edu3.innerHTML="";
  edu.forEach(e=>{
   if(e.q){
-   eduPreview.innerHTML+=
-   `<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
+   eduPreview.innerHTML+=`<tr><td>${e.q}</td><td>${e.b||""}</td><td>${e.y||""}</td><td>${e.p||""}</td></tr>`;
+   edu3.innerHTML+=`<li>${e.y||""} - ${e.q}</li>`;
   }
  });
 }
 
-/* DOWNLOAD CHECK */
-function downloadResume(){
- if(!/^[6-9][0-9]{9}$/.test(phoneInput.value) ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailInput.value)){
-  alert("Please enter valid Phone & Email");
-  return;
+/* Photo */
+function loadImg(e){
+ let r=new FileReader();
+ r.onload=()=>{
+  photo2.src=photo3.src=r.result;
  }
- window.print();
+ r.readAsDataURL(e.target.files[0]);
 }
+
+/* Design switch */
+function selectDesign(card,d){
+ document.querySelectorAll('.design-card').forEach(c=>c.classList.remove('active'));
+ card.classList.add('active');
+ document.querySelectorAll('.resume').forEach(r=>r.classList.add('hide'));
+ if(d==='modern') modernResume.classList.remove('hide');
+ else if(d==='sidebar') sidebarResume.classList.remove('hide');
+ else resume.classList.remove('hide');
+}
+
+/* Sync */
+setInterval(()=>{
+ name2.innerText=name.innerText;
+ name3.innerText=name.innerText;
+ phone2.innerText=phone.innerText;
+ phone3.innerText=phone.innerText;
+ email2.innerText=email.innerText;
+ email3.innerText=email.innerText;
+ address2.innerText=address.innerText;
+ address3.innerText=address.innerText;
+ pincode2.innerText=pincode.innerText;
+ pincode3.innerText=pincode.innerText;
+ objective2.innerText=objective.innerText;
+ skills2.innerHTML=skillsArr.map(s=>`<div>${s}<div class="skill-bar"><span style="width:80%"></span></div></div>`).join("");
+ skills3.innerHTML=skillsArr.map(s=>"<li>"+s+"</li>").join("");
+},500);
 </script>
 
 </body>
