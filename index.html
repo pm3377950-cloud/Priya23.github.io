@@ -2,83 +2,131 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Resume Maker App</title>
+<title>Free Resume Maker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{margin:0;font-family:system-ui;background:#f1f5f9}
-.top{background:#0f172a;color:#fff;padding:14px;text-align:center}
+.top{background:#0f172a;color:#fff;padding:14px;text-align:center;font-size:18px}
+
 .container{padding:10px}
+@media(min-width:768px){
+ .container{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+}
+
 .card{background:#fff;padding:12px;border-radius:12px;margin-bottom:10px}
 .card h3{margin-top:0;color:#0ea5e9}
-input,textarea,select{width:100%;padding:10px;margin-bottom:8px;border-radius:8px;border:1px solid #cbd5e1}
 
-.resume{background:#fff;padding:18px;border-radius:12px;margin-bottom:80px}
-.name{font-size:24px;font-weight:bold}
-.section{margin-top:12px}
+input,textarea,select{
+ width:100%;padding:10px;margin-bottom:8px;
+ border-radius:8px;border:1px solid #cbd5e1
+}
+
+button{padding:10px;border:none;border-radius:8px;background:#0ea5e9;color:#fff}
+
+/* TEMPLATE BOX */
+.templates{display:flex;gap:10px}
+.temp{flex:1;padding:14px;border-radius:10px;text-align:center;font-weight:bold;cursor:pointer}
+.temp.govt{background:#e5e7eb}
+.temp.private{background:#dbeafe}
+.temp.modern{background:#cffafe}
+
+/* RESUME */
+.resume{background:#fff;padding:20px;border-radius:12px}
+.name{font-size:26px;font-weight:bold}
+.section{margin-top:14px}
 .section h4{border-bottom:2px solid #0ea5e9}
 
-.bottom{position:fixed;bottom:0;width:100%;display:flex}
-.bottom button{flex:1;padding:14px;border:none;background:#0ea5e9;color:#fff}
+/* TEMPLATES */
+.template-govt{font-family:"Times New Roman"}
+.template-govt h4{border-bottom:1px solid #000;color:#000}
+
+.template-private{font-family:Arial}
+.template-private h4{color:#2563eb}
+
+.template-modern .name{color:#0ea5e9}
+.template-modern h4{border-bottom:2px dashed #0ea5e9}
+
+/* FINAL PREVIEW */
+.review .card{display:none}
+.review .resume{margin:0}
+
+/* PRINT */
+@media print{
+ body *{visibility:hidden}
+ .resume,.resume *{visibility:visible}
+ .resume{position:absolute;left:0;top:0;width:100%}
+}
+
 img{max-width:100px;border-radius:6px}
 </style>
 </head>
 
 <body>
 
-<div class="top">Resume Maker App (Pro)</div>
+<div class="top">FREE Resume Maker (Govt + Private)</div>
 
-<div class="container">
+<div class="container" id="app">
 
+<!-- TEMPLATE -->
 <div class="card">
-<h3>Template & Language</h3>
-<select onchange="setTemplate(this.value)">
-<option value="govt">Government</option>
-<option value="private">Private</option>
-<option value="fresher">Fresher</option>
-<option value="experience">Experienced</option>
-<option value="modern">Modern</option>
-</select>
-
-<select onchange="setLang(this.value)">
-<option value="en">English</option>
-<option value="hi">Hindi</option>
-</select>
+<h3>Select Template</h3>
+<div class="templates">
+<div class="temp govt" onclick="setTemplate('govt')">Govt</div>
+<div class="temp private" onclick="setTemplate('private')">Private</div>
+<div class="temp modern" onclick="setTemplate('modern')">Modern</div>
+</div>
 </div>
 
+<!-- PERSONAL -->
 <div class="card">
 <h3>Personal Details</h3>
-<input placeholder="Name" oninput="set('name',this.value)">
-<input placeholder="Father Name" class="govt" oninput="set('father',this.value)">
-<input placeholder="DOB" class="govt" oninput="set('dob',this.value)">
-<input placeholder="Mobile" oninput="set('phone',this.value)">
-<input placeholder="Email" oninput="set('email',this.value)">
+<input placeholder="Name" oninput="setText('name',this.value)">
+<input placeholder="Father Name (Govt)" class="govt" oninput="setText('father',this.value)">
+<input placeholder="DOB" class="govt" oninput="setText('dob',this.value)">
+<input placeholder="Mobile" oninput="setText('phone',this.value)">
+<input placeholder="Email" oninput="setText('email',this.value)">
 </div>
 
+<!-- PHOTO -->
 <div class="card">
 <h3>Photo & Signature</h3>
 <input type="file" accept="image/*" onchange="loadImg(event,'photo')">
 <input type="file" accept="image/*" onchange="loadImg(event,'sign')">
 </div>
 
+<!-- EDUCATION -->
 <div class="card">
 <h3>Education</h3>
-<textarea oninput="set('edu',this.value)"></textarea>
+<div id="eduList">
+<textarea oninput="updateList('edu')"></textarea>
+</div>
+<button onclick="addField('eduList')">+ Add Education</button>
 </div>
 
+<!-- SKILLS -->
 <div class="card private">
 <h3>Skills</h3>
-<textarea oninput="set('skills',this.value)"></textarea>
+<div id="skillList">
+<textarea oninput="updateList('skills')"></textarea>
+</div>
+<button onclick="addField('skillList')">+ Add Skill</button>
 </div>
 
+<!-- EXPERIENCE -->
 <div class="card private">
 <h3>Experience / Projects</h3>
-<textarea oninput="set('exp',this.value)"></textarea>
+<div id="expList">
+<textarea oninput="updateList('exp')"></textarea>
+</div>
+<button onclick="addField('expList')">+ Add Experience</button>
 </div>
 
-<!-- RESUME -->
-<div class="resume" id="resume">
-<img id="photo">
+<!-- RESUME PREVIEW -->
+<div class="resume template-govt" id="resume">
+
+<img id="photo"><br><br>
+
 <div class="name" id="name">Your Name</div>
 <p id="phone"></p>
 <p id="email"></p>
@@ -89,32 +137,35 @@ img{max-width:100px;border-radius:6px}
 </div>
 
 <div class="section">
-<h4 id="eduTitle">Education</h4>
+<h4>Education</h4>
 <p id="edu"></p>
 </div>
 
 <div class="section private">
-<h4 id="skillTitle">Skills</h4>
+<h4>Skills</h4>
 <p id="skills"></p>
 </div>
 
 <div class="section private">
-<h4 id="expTitle">Experience</h4>
+<h4>Experience</h4>
 <p id="exp"></p>
 </div>
 
 <img id="sign">
-</div>
 
 </div>
+</div>
 
-<div class="bottom">
-<button onclick="window.print()">Download PDF</button>
-<button onclick="alert('Paid Download Coming Soon')">Premium</button>
+<!-- BOTTOM -->
+<div class="top" style="position:fixed;bottom:0;width:100%;display:flex;gap:5px">
+<button onclick="toggleReview()" style="flex:1">Final Preview</button>
+<button onclick="window.print()" style="flex:1">Print / PDF</button>
 </div>
 
 <script>
-function set(id,v){document.getElementById(id).innerText=v||""}
+function setText(id,val){
+ document.getElementById(id).innerText=val||"";
+}
 
 function loadImg(e,id){
  let r=new FileReader();
@@ -122,24 +173,38 @@ function loadImg(e,id){
  r.readAsDataURL(e.target.files[0]);
 }
 
-function setTemplate(t){
- document.querySelectorAll('.govt').forEach(e=>e.style.display=t==='govt'?'block':'none');
- document.querySelectorAll('.private').forEach(e=>e.style.display=t==='private'||t==='modern'||t==='experience'?'block':'none');
+function addField(id){
+ let t=document.createElement("textarea");
+ t.oninput=()=>updateList(id.replace("List",""));
+ document.getElementById(id).appendChild(t);
 }
 
-function setLang(l){
- if(l==='hi'){
-  eduTitle.innerText="शिक्षा";
-  skillTitle.innerText="कौशल";
-  expTitle.innerText="अनुभव";
- }else{
-  eduTitle.innerText="Education";
-  skillTitle.innerText="Skills";
-  expTitle.innerText="Experience";
- }
+function updateList(id){
+ let text="";
+ document.querySelectorAll("#"+id+"List textarea")
+ .forEach(t=>{
+  if(t.value.trim()!=="") text+="• "+t.value+"\n";
+ });
+ document.getElementById(id).innerText=text;
 }
-setTemplate('govt');
+
+function setTemplate(t){
+ let r=document.getElementById("resume");
+ r.className="resume template-"+t;
+
+ document.querySelectorAll(".govt")
+ .forEach(e=>e.style.display=t==="govt"?"block":"none");
+
+ document.querySelectorAll(".private")
+ .forEach(e=>e.style.display=(t!=="govt")?"block":"none");
+}
+
+function toggleReview(){
+ document.body.classList.toggle("review");
+}
+
+setTemplate("govt");
 </script>
 
 </body>
-    </html>
+ </html>
